@@ -1,0 +1,9 @@
+200 -> Success
+401 -> Fail to generate OTP
+402 -> OTP Validation Failed
+403 -> Login Failed. Invalid Token
+405 -> Token expired
+406 -> Failed to generate new tokens
+407 -> User with mobile number not fund
+408 -> Mobile number is black listed.
+409 -> Insufficient parameters

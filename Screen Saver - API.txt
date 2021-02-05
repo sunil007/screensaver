@@ -1,0 +1,358 @@
+1. OTP Generation URL
+
+URL : http://test.classmatrix.in/screen-saver/api/security/generateOtp.php
+Input
+	{
+		"mobile" : "9999999999",
+		"timeStamp" : "2021-01-18 01:48 PM"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			
+		}
+	}
+	
+	
+2. Validate OTP
+Url :  http://test.classmatrix.in/screen-saver/api/security/validateOtp.php
+Input
+	{
+		"mobile" : "9999999999",
+		"timeStamp" : "2021-01-18 01:48 PM",
+		"otp" : "123456"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"token" : "123ksdfnjb123j12jn321m3",
+			"refreshToken" : "asdnbasndasndsanmasnmbasnbmasdb"
+		}
+	}
+
+
+3. User Login 
+Url :  http://test.classmatrix.in/screen-saver/api/security/login.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId" : "123",
+			"userType" : "USER"
+		}
+	}
+	
+4. Generate New Token
+Url :  http://test.classmatrix.in/screen-saver/api/security/generateNewToken.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"refreshToken" : "refreshToken"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"token" : "123ksdfnjb123j12jn321m3",
+			"refreshToken" : "asdnbasndasndsanmasnmbasnbmasdb"
+		}
+	}
+	
+5. Get User Policy List
+Url :  http://test.classmatrix.in/screen-saver/api/user/getUserPolicyList.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userId" : "1"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"policies" : [
+				{
+					"policyId" : "123",
+					"userId" : "1",
+					"mobileIMEI" : "IMEI12345",
+					"mobileModel" : "PQR",
+					"mobileCompany" : "SAMSUNG",
+					"mobileCurrentPrice" : "15000",
+					"photo" : "https://www.classmatrix.com/photo/1.jpg",
+					"video" : "https://www.classmatrix.com/video/1.mp4",
+					"salesManId" : "12345",
+					"dateOfRegistration" : "2020-12-25",
+					"dateOfActivation" : "2021-01-01",
+					"dateOfExpiryDate" : "2021-12-31",
+					"dateOfService" : "",
+					"amount" : "200",
+					"Status" : "Active"
+				},{
+					"policyId" : "124",
+					"userId" : "1",
+					"mobileIMEI" : "IMEI1423567",
+					"mobileModel" : "XYZ",
+					"mobileCompany" : "Samsung",
+					"mobileCurrentPrice" : "16200",
+					"photo" : "https://www.classmatrix.com/photo/2.jpg",
+					"video" : "https://www.classmatrix.com/video/2.mp4",
+					"salesManId" : "12345",
+					"dateOfRegistration" : "2021-01-15",
+					"dateOfActivation" : "",
+					"dateOfExpiryDate" : "",
+					"dateOfService" : "",
+					"amount" : "200",
+					"Status" : "InActive"
+				}
+			]
+		}
+	}
+	
+6. Get User Detail
+Url :  http://test.classmatrix.in/screen-saver/api/user/getUserDetail.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId": "1",
+			"name": "Ronak",
+			"address": "Gujarat",
+			"photo": "https://readyrefrigeration.ca/sites/default/files/styles/headshot/adaptive-image/public/nobody.jpg",
+			"mobile": "9999999999",
+			"aadhar": "2134-1245-2458-1245",
+			"type": "USER",
+			"status": 1
+		}
+	}
+	
+	
+7. Search Mobile Number - By Sales Man
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/searchMobileNumber.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9865854789"
+	}
+Output (Found)
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId": "1",
+			"mobile": "9865854789",
+			"status" : "1"
+		}
+	}
+	
+Output (Not Found)
+	{
+		"status" : "success",
+		"statusCode" : "201",
+		"response" : {
+			"message": "No Match Found"
+		}
+	}
+
+8. Validate OTP and Create User 
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/createUser.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9865854789",
+		"userotp" : "123456",
+		"userTimestamp" : "245789545",
+	}
+Output (Failed)
+	{
+		"status" : "failed",
+		"statusCode" : "411",
+		"response" : {
+			"message": "Cannot create user, mobile number already register"
+		}
+	}
+Output (Success)
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId" : "123",
+			"userType" : "USER"
+		}
+	}
+	
+9. Update User Details
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/updateUserDetails.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9865854789",
+		"userId" : "123",
+		"userName" : "ABCD",
+		"userAddressLine1" : "address line 1",
+		"userAddressLine2" : "address line 2",
+		"userCity" : "city",
+		"userState" : "state",
+		"userPincode" : "pincode",
+		"userAadhar" : "aadhar"
+	}
+
+Output (Failed)
+	{
+		"status" : "failed",
+		"statusCode" : "408",
+		"response" : {
+			"message": "Mobile number is black listed"
+		}
+	}
+Output (Success)
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"message": "success"
+		}
+	}
+	
+10. Update User Profile Image [PENDING]
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/updateUserProfileImage.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9865854789",
+		"userId" : "123",
+		"profileImage" : "BLOB STORAGE"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"message": "success"
+		}
+	}
+
+11. Calculate Policy Premium
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/calculatePremium.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"mobileCurrentPrice" : "13000",
+		"mobileCompany" : "Samsung",
+		"mobileModel" : "X-Pro"
+	}
+output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"premium": "250"
+		}
+	}
+	
+12. Create policy 
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/createPolicy.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9865854789",
+		"mobileIMEI" : "1234imei",
+		"mobileModel" : "model name",
+		"mobileCompany" : "company name",
+		"mobileCurrentPrice" : "13000"
+	}
+output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"policyId": "5"
+		}
+	}
+	
+13. Get policy 
+Url :  http://test.classmatrix.in/screen-saver/api/salesp/getPolicy.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9865854789",
+		"policyId" : "1234"
+	}
+output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"id": "3",
+			"userId": "6",
+			"mobileIMEI": "MOBIEL IMEI",
+			"mobileModel": "abcd",
+			"mobileCompany": "My Onw company",
+			"mobileCurrentPrice": "50101",
+			"mobilePhoto": "",
+			"mobileVideo": "",
+			"salesManId": "3",
+			"dateOfRegistration": "2021-01-26 11:27:58",
+			"dateOfActivation": "",
+			"dateOfExpiration": "",
+			"serviceId": "-1",
+			"policyPrice": "502",
+			"status": "InActive"
+		}
+	}
+	
+14. Get User policy 
+Url :  http://test.classmatrix.in/screen-saver/api/user/getUserPolicy.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"policyId" : "1234"
+	}
+output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"id": "3",
+			"userId": "6",
+			"mobileIMEI": "MOBIEL IMEI",
+			"mobileModel": "abcd",
+			"mobileCompany": "My Onw company",
+			"mobileCurrentPrice": "50101",
+			"mobilePhoto": "",
+			"mobileVideo": "",
+			"salesManId": "3",
+			"dateOfRegistration": "2021-01-26 11:27:58",
+			"dateOfActivation": "",
+			"dateOfExpiration": "",
+			"serviceId": "-1",
+			"policyPrice": "502",
+			"status": "InActive"
+		}
+	}
