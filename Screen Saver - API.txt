@@ -394,6 +394,8 @@ Output
 					"id":"1",
 					"name":"User Name",
 					"phone":"xxxxxxx999",
+					"status":"1",
+					"statusName":"Active"
 				}	
 			]
 		}
