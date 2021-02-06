@@ -3,7 +3,7 @@
 <?php 
 	if(isset($_POST['mobile']) && isset($_POST['token'])){
 		$tokenUserType = Token::getTokenUserType($_POST['token'], $_POST['mobile']);
-		if($tokenUserType && ($tokenUserType == 'SALESP' || $tokenUserType == 'SALESE' || $tokenUserType == 'DISTRIBUTER' || $tokenUserType == 'DISTRICT_HEAD' || $tokenUserType == 'DISTRICT_HEAD')){
+		if($tokenUserType && ($tokenUserType == 'SALESP' || $tokenUserType == 'SALESE' || $tokenUserType == 'DISTRIBUTER' || $tokenUserType == 'DISTRICT_HEAD' || $tokenUserType == 'STATE_HEAD')){
 		}else{
 			echo Response::getFailureResponse(null, 405);
 			exit(0);

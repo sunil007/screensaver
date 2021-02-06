@@ -4,7 +4,7 @@ URL : http://screensaver.classmatrix.in/api/security/generateOtp.php
 Input
 	{
 		"mobile" : "9999999999",
-		"timeStamp" : "2021-01-18 01:48 PM"
+		"timeStamp" : "2021-01-18 01:48:00"
 	}
 Output
 	{
