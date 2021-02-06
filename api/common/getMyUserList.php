@@ -19,6 +19,7 @@
 				$mapElement['name'] = $user->name;
 				$mapElement['phone'] = 'XXXX-XXX-'.substr($user->mobile, -3);
 				$mapElement['status'] = $user->status;
+				$mapElement['statusName'] = $user->statusName;
 				array_push($map['users'], $mapElement);
 			}
 			echo Response::getSuccessResponse($map, 200);
