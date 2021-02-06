@@ -7,6 +7,7 @@
 		public $managerId;
 		public $name;
 		public $aadhar;
+		public $aadhar_photo;
 		public $photo;
 		public $mobile;
 		public $address_line1;
@@ -16,6 +17,7 @@
 		public $pincode;
 		public $type;
 		public $status;  //1 --> Active, 0 --> InActive, -1 --> Black Listed
+		public $statusName;
 		
 		public function populateByRow($row){
 			$this->id = $row['id'];
@@ -29,8 +31,15 @@
 			$this->photo = $row['photo'];
 			$this->mobile = $row['mobile'];
 			$this->aadhar = $row['aadhar'];
+			$this->aadhar_photo = $row['aadhar_photo'];
 			$this->type = $row['type'];
 			$this->status = $row['status'];
+			if($this->status == 1)
+				$this->statusName = "Active";
+			else if($this->status == -1)
+				$this->statusName = "Black Listed";
+			else
+				$this->statusName = "InActive";
 		}
 		
 		public function toMapObject(){
@@ -46,8 +55,10 @@
 			$map['photo'] = $this->photo;
 			$map['mobile'] = $this->mobile;
 			$map['aadhar'] = $this->aadhar;
+			$map['aadhar_photo'] = $this->aadhar_photo;
 			$map['type'] = $this->type;
 			$map['status'] = $this->status;
+			$map['statusName'] = $this->statusName;
 			return $map;
 		}
 		
