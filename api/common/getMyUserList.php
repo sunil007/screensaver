@@ -10,7 +10,7 @@
 	$user = User::getUserByMobileNumber($mobile);
 	if($user){
 		if($user->status == 1){
-			$users = User:getUsersByManagerId($user->id);
+			$users = User::getUsersByManagerId($user->id);
 			$map = array();
 			$map['users'] = array();
 			foreach($users as $user){
