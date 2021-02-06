@@ -6,19 +6,31 @@
 	include_once __DIR__."/../../model/Response.php";
 	include_once __DIR__."/../../model/User.php";
 		
-	$mobile = $_POST['mobile'];
-	$user = User::getUserByMobileNumber($mobile);
-	if($user){
-		if($user->status == 1){
-			$map = $user->toMapObject();
+		
+	if(isset($_POST['userMobile']) && is_numeric($_POST['userMobile'])){
+		$mobile = $_POST['mobile'];
+		$userMobileNumber = $_POST['userMobile'];
+		
+		$currentUser = User::getUserByMobileNumber($mobile);
+		$userObject = User::getUserByMobileNumber($userMobileNumber);
+		
+		/*Validating Current User*/
+		if(!$currentUser){
+			echo Response::getFailureResponse(null, 409);
+			exit(0);
+		}
+		if(!$userObject || $userObject->managerId != $currentUser->id){
+			echo Response::getFailureResponse(null, 416);
+			exit(0);
+		}
+		
+		if($userObject){
+			$map = $userObject->toMapObject();
 			echo Response::getSuccessResponse($map, 200);
-		}else if($user->status == -1){
-			echo Response::getFailureResponse(null, 408);
 		}else{
-			echo Response::getFailureResponse(null, 410);
+			echo Response::getFailureResponse(null, 407);
 		}
 	}else{
-		echo Response::getFailureResponse(null, 407);
+		echo Response::getFailureResponse(null, 409);
 	}
-
 ?>

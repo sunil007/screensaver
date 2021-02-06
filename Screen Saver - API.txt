@@ -121,8 +121,8 @@ Output
 		}
 	}
 	
-6. Get User Detail
-Url :  http://screensaver.classmatrix.in/api/common/getUserDetail.php
+6. Get My Detail (self detail)
+Url :  http://screensaver.classmatrix.in/api/common/myUserDetail.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -421,7 +421,7 @@ Output
 		}
 	}
 	
-18. Get My User List
+18. Get All InActive Policies for Review - By Reviewer
 Url :  http://screensaver.classmatrix.in/api/reviewer/getInActivePolicyList.php
 Input
 	{
@@ -475,5 +475,29 @@ Output
 		"statusCode" : "200",
 		"response" : {
 			"message": "success"
+		}
+	}
+	
+21. Get User Detail 
+Url :  http://screensaver.classmatrix.in/api/common/getUserDetail.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9999999997"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId": "1",
+			"name": "Ronak",
+			"address": "Gujarat",
+			"photo": "https://readyrefrigeration.ca/sites/default/files/styles/headshot/adaptive-image/public/nobody.jpg",
+			"mobile": "9999999999",
+			"aadhar": "2134-1245-2458-1245",
+			"type": "USER",
+			"status": 1
 		}
 	}
