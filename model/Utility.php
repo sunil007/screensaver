@@ -8,7 +8,7 @@
 			return $string;
 		}
 		
-		public static uploadFile($fileObject){
+		public static function uploadFile($fileObject){
 			
 			$currentTime = new DateTime();
 			$target_dir = __DIR__."/../../profile/".$currentTime->format("YmdHis");
