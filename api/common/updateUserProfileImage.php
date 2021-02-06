@@ -26,7 +26,7 @@
 			exit(0);
 		}
 		
-		$profileImagePath = Utility::uploadFile($_FILE);
+		$profileImagePath = Utility::uploadFile($_FILES);
 		if($profileImagePath){
 			User::updateUserProfileImage($userObject->id, $profileImagePath);
 			echo Response::getSuccessResponse(null, 200);
