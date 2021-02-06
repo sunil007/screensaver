@@ -1,6 +1,6 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
-	include_once __DIR__."/../config/salesp_security.php";
+	include_once __DIR__."/../config/sales_security.php";
 	include_once __DIR__."/../../model/OTP.php";
 	include_once __DIR__."/../../model/Token.php";
 	include_once __DIR__."/../../model/Response.php";
@@ -26,7 +26,24 @@
 		$userState = $_POST['userState'];
 		$userPincode = $_POST['userPincode'];
 		$userAadhar = $_POST['userAadhar'];
-		User::updateUserDetails($userId, $userName, $userAddressLine1, $userAddressLine2, $userCity, $userState, $userPincode, $userAadhar, 1);
+		$mobile = $_POST['mobile'];	
+		$userMobileNumber = $_POST['userMobile'];
+		
+		
+		$currentUser = User::getUserByMobileNumber($mobile);
+		$userObject = User::getUserByMobileNumber($userMobileNumber);
+			
+		/*Validating Current User*/
+		if(!$currentUser){
+			echo Response::getFailureResponse(null, 409);
+			exit(0);
+		}
+		if(!$userObject || $userObject->managerId != $currentUser->id){
+			echo Response::getFailureResponse(null, 416);
+			exit(0);
+		}
+		
+		User::updateUserDetails($userId, $userName, $userAddressLine1, $userAddressLine2, $userCity, $userState, $userPincode, $userAadhar, 0);
 		echo Response::getSuccessResponse(null, 200);
 		
 	}else{

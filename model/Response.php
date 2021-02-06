@@ -17,7 +17,8 @@
 			"412" => "Sales person not found",
 			"413" => "Policy already registered with given IMEI number",
 			"414" => "Fail to upload",
-			"415" => "Policy Not Found"
+			"415" => "Policy Not Found",
+			"416" => "Access Denied"
 		);
 		
 		

@@ -4,6 +4,7 @@
 	class User{
 		
 		public $id;
+		public $managerId;
 		public $name;
 		public $aadhar;
 		public $photo;
@@ -18,6 +19,7 @@
 		
 		public function populateByRow($row){
 			$this->id = $row['id'];
+			$this->managerId = $row['manager_id'];
 			$this->name = $row['name'];
 			$this->address_line1 = $row['address_line1'];
 			$this->address_line2 = $row['address_line2'];
@@ -34,6 +36,7 @@
 		public function toMapObject(){
 			$map = array();
 			$map['id'] = $this->id;
+			$map['manager_id'] = $this->managerId;
 			$map['name'] = $this->name;
 			$map['address_line1'] = $this->address_line1;
 			$map['address_line2'] = $this->address_line2;
@@ -71,10 +74,10 @@
 			return false;
 		}
 		
-		public static function createNewUserEntry($mobileNumber){
+		public static function createNewUserTableEntry($mobileNumber, $managerId, $userType){
 			$maxUserid = User::getMaxId();
 			$newId = $maxUserid + 1;
-			$query = "INSERT INTO `user` (`id`, `name`, `address_line1`, `address_line2`, `city`, `state`, `pincode`, `photo`, `mobile`, `aadhar`, `type`, `status`) VALUES (".$newId.", '', '', '', '', '', '', '', '".$mobileNumber."', '', 'USER', '0');";
+			$query = "INSERT INTO `user` (`id`, `manager_id`, `name`, `address_line1`, `address_line2`, `city`, `state`, `pincode`, `photo`, `mobile`, `aadhar`, `type`, `status`) VALUES (".$newId.", ".$managerId.", '', '', '', '', '', '', '', '".$mobileNumber."', '', '".$userType."', '0');";
 			dbo::insertRecord($query);
 			return $newId;
 		}
@@ -111,5 +114,40 @@
 				dbo::insertRecord($query);
 			}
 		}
+		
+		public static function updateUserAadharImage($userid, $imagePath){
+			$query = "UPDATE `user` SET ";
+			if($imagePath != null && $imagePath != ""){
+				$query .= "`aadhar_photo` = '".Utility::clean($imagePath)."' ";
+				$query .= " Where id=".$userid;	
+				dbo::insertRecord($query);
+			}
+		}
+		
+		/*USER Related Methods*/
+		public static function createNewUserEntry($mobileNumber, $managerId){
+			return User::createNewUserTableEntry($mobileNumber, $managerId, "USER");
+		}
+		
+		/*Distict Head Related Methods*/
+		public static function createNewDistictHead($mobileNumber, $managerId){
+			return User::createNewUserTableEntry($mobileNumber, $managerId, "DISTRICT_HEAD");
+		}
+		
+		/*Distributer Related Methods*/
+		public static function createNewDistributer($mobileNumber, $managerId){
+			return User::createNewUserTableEntry($mobileNumber, $managerId, "DISTRIBUTER");
+		}
+		
+		/*Sales Executive Related Methods*/
+		public static function createNewSalesExecutive($mobileNumber, $managerId){
+			return User::createNewUserTableEntry($mobileNumber, $managerId, "SALESE");
+		}
+		
+		/*Sales Person Related Methods*/
+		public static function createNewSalesPerson($mobileNumber, $managerId){
+			return User::createNewUserTableEntry($mobileNumber, $managerId, "SALESP");
+		}
+		
 	}
 ?>

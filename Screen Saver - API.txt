@@ -1,6 +1,6 @@
 1. OTP Generation URL
 
-URL : http://test.classmatrix.in/screen-saver/api/security/generateOtp.php
+URL : http://screensaver.classmatrix.in/api/security/generateOtp.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -17,7 +17,7 @@ Output
 	
 	
 2. Validate OTP
-Url :  http://test.classmatrix.in/screen-saver/api/security/validateOtp.php
+Url :  http://screensaver.classmatrix.in/api/security/validateOtp.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -36,7 +36,7 @@ Output
 
 
 3. User Login 
-Url :  http://test.classmatrix.in/screen-saver/api/security/login.php
+Url :  http://screensaver.classmatrix.in/api/security/login.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -53,7 +53,7 @@ Output
 	}
 	
 4. Generate New Token
-Url :  http://test.classmatrix.in/screen-saver/api/security/generateNewToken.php
+Url :  http://screensaver.classmatrix.in/api/security/generateNewToken.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -71,7 +71,7 @@ Output
 	}
 	
 5. Get User Policy List
-Url :  http://test.classmatrix.in/screen-saver/api/user/getUserPolicyList.php
+Url :  http://screensaver.classmatrix.in/api/user/getUserPolicyList.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -122,7 +122,7 @@ Output
 	}
 	
 6. Get User Detail
-Url :  http://test.classmatrix.in/screen-saver/api/user/getUserDetail.php
+Url :  http://screensaver.classmatrix.in/api/user/getUserDetail.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -146,7 +146,7 @@ Output
 	
 	
 7. Search Mobile Number - By Sales Man
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/searchMobileNumber.php
+Url :  http://screensaver.classmatrix.in/api/salesp/searchMobileNumber.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -174,7 +174,7 @@ Output (Not Found)
 	}
 
 8. Validate OTP and Create User 
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/createUser.php
+Url :  http://screensaver.classmatrix.in/api/salesp/createUser.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -202,7 +202,7 @@ Output (Success)
 	}
 	
 9. Update User Details
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/updateUserDetails.php
+Url :  http://screensaver.classmatrix.in/api/salesp/updateUserDetails.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -236,7 +236,7 @@ Output (Success)
 	}
 	
 10. Update User Profile Image [PENDING]
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/updateUserProfileImage.php
+Url :  http://screensaver.classmatrix.in/api/salesp/updateUserProfileImage.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -255,7 +255,7 @@ Output
 	}
 
 11. Calculate Policy Premium
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/calculatePremium.php
+Url :  http://screensaver.classmatrix.in/api/salesp/calculatePremium.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -274,7 +274,7 @@ output
 	}
 	
 12. Create policy 
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/createPolicy.php
+Url :  http://screensaver.classmatrix.in/api/salesp/createPolicy.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -295,7 +295,7 @@ output
 	}
 	
 13. Get policy 
-Url :  http://test.classmatrix.in/screen-saver/api/salesp/getPolicy.php
+Url :  http://screensaver.classmatrix.in/api/salesp/getPolicy.php
 Input
 	{
 		"mobile" : "9999999999",
@@ -327,7 +327,7 @@ output
 	}
 	
 14. Get User policy 
-Url :  http://test.classmatrix.in/screen-saver/api/user/getUserPolicy.php
+Url :  http://screensaver.classmatrix.in/api/user/getUserPolicy.php
 Input
 	{
 		"mobile" : "9999999999",
