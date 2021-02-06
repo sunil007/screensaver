@@ -11,14 +11,29 @@
 		public $mobilePhoto;
 		public $mobileVideo;
 		public $salesManId;
+		public $approvedBy;
 		public $dateOfRegistration;
+		public $dateOfValidation;
 		public $dateOfActivation;
 		public $dateOfExpiration;
 		public $serviceId;
 		public $policyPrice;
 		public $status;  //InActive/Validated/Active/Laps/Clamed/Expired
 		
+		public static $validationPeriodWindow = 'PT1440M';
 		public static $activationPeriodWindow = 'PT1440M';
+		public static $policyDuration = 'PT525600M';
+		
+		public static function getPolicyById($policyId){
+			$query = "select * from policy where id = ".$policyId.";";
+			$resultSet = dbo::getResultSetForQuery($query);
+			if($resultSet != false){
+				$row = mysqli_fetch_array($resultSet);
+				$policy = new Policy();
+				$policy->populateByRow($row);
+				return $policy;
+			}
+		}
 		
 		public static function getPolicyByUserid($userid){
 			$query = "select * from policy where userId = ".$userid.";";
@@ -60,6 +75,20 @@
 			return $policies;
 		}
 		
+		public static function getAllPolicyForValidation($userid){
+			$query = "select * from policy where status = 'InActive';";
+			$resultSet = dbo::getResultSetForQuery($query);
+			$policies=array();
+			if($resultSet != false){
+				while($row = mysqli_fetch_array($resultSet)){
+					$policy = new Policy();
+					$policy->populateByRow($row);
+					array_push($policies, $policy);
+				}
+			}
+			return $policies;
+		}
+		
 		public function populateByRow($row){
 			$this->id = $row['id'];
 			$this->userId = $row['userId'];
@@ -70,11 +99,17 @@
 			$this->mobilePhoto = $row['mobilePhoto'];
 			$this->mobileVideo = $row['mobileVideo'];
 			$this->salesManId = $row['salesManId'];
+			$this->approvedBy = $row['approved_by'];
 			
 			if($row['dateOfRegistration'] != null && $row['dateOfRegistration'] != "" && $row['dateOfRegistration'])
 				$this->dateOfRegistration = new DateTime($row['dateOfRegistration']);
 			else
 				$this->dateOfRegistration = null;
+				
+			if($row['dateOfValidation'] != null && $row['dateOfValidation'] != "" && $row['dateOfValidation'])
+				$this->dateOfValidation = new DateTime($row['dateOfValidation']);
+			else
+				$this->dateOfValidation = null;
 		
 			if($row['dateOfActivation'] != null && $row['dateOfActivation'] != "" && $row['dateOfActivation'])
 				$this->dateOfActivation = new DateTime($row['dateOfActivation']);
@@ -90,7 +125,7 @@
 			$this->policyPrice = $row['policyPrice'];
 			
 			$this->status = $row['status'];
-			if($this->dateOfRegistration == null){
+			/*if($this->dateOfRegistration == null){
 				$this->status = "InActive";
 			}else if($this->dateOfRegistration != null && $this->dateOfActivation == null){
 				//Registered But No Activated
@@ -112,6 +147,11 @@
 				$this->status = "Clamed";
 			}else{
 				$this->status = "InActive";
+			}*/
+			if($this->dateOfActivation != null && $this->dateOfExpiration != null){
+				$currentTime = new DateTime();
+				if($currentTime > $this->dateOfExpiration)
+					$this->status = "Expired";
 			}
 		}
 		
@@ -126,10 +166,15 @@
 			$map['mobilePhoto'] = $this->mobilePhoto;
 			$map['mobileVideo'] = $this->mobileVideo;
 			$map['salesManId'] = $this->salesManId;
+			$map['approved_by'] = $this->approvedBy;
 			if($this->dateOfRegistration != null)
 				$map['dateOfRegistration'] = $this->dateOfRegistration->format('Y-m-d H:i:s');
 			else
 				$map['dateOfRegistration'] = "";
+			if($this->dateOfValidation != null)
+				$map['dateOfValidation'] = $this->dateOfValidation->format('Y-m-d H:i:s');
+			else
+				$map['dateOfValidation'] = "";
 			if($this->dateOfActivation != null)
 				$map['dateOfActivation'] = $this->dateOfActivation->format('Y-m-d H:i:s');
 			else
@@ -183,12 +228,26 @@
 			$newId = $maxPolicyid + 1;
 			$query = "
 				INSERT INTO `policy` 
-				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto`, `mobileVideo`, `salesManId`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
+				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto`, `mobileVideo`, `salesManId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
 				VALUES 
-				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '".$salesManId."', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
+				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '".$salesManId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
 			//echo $query;
 			dbo::insertRecord($query);
 			return $newId;
+		}
+		
+		public static function validatePolicy($policyId, $approvedBy){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `approved_by` = '".$approvedBy."', `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Validated' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($query);
+		}
+		
+		public static function ActivatePolicy($policyId){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$expireWindow = new DateTime();
+			$expireWindow->add(new DateInterval(Policy::$policyDuration));
+			$updateQuery = "UPDATE `policy` SET `dateOfActivation` = '".$currentTimeStamp."', `dateOfExpiration` = '".$expireWindow."', `status` = 'Active' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($query);
 		}
 	}
 ?>

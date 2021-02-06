@@ -18,7 +18,9 @@
 			"413" => "Policy already registered with given IMEI number",
 			"414" => "Fail to upload",
 			"415" => "Policy Not Found",
-			"416" => "Access Denied"
+			"416" => "Access Denied",
+			"417" => "Cannot Validate Policy, Validation Time Expire",
+			"418" => "Cannot Activation Policy, Activation Time Expire"
 		);
 		
 		

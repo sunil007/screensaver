@@ -1,7 +1,7 @@
 <?php
 	class Utility{
 		
-		public static $webAssetPrefex = "http://test.classmatrix.in/screen-saver/";
+		public static $webAssetPrefex = "http://screensaver.classmatrix.in/";
 		public static function clean($string){
 			$string = str_replace("'","",$string);
 			$string = str_replace("=","",$string);
@@ -11,7 +11,7 @@
 		public static function uploadFile($fileObject){
 			
 			$currentTime = new DateTime();
-			$target_dir = __DIR__."/../../profile/".$currentTime->format("YmdHis");
+			$target_dir = __DIR__."/../profile/".$currentTime->format("YmdHis");
 			$webtarget_dir = "profile/".$currentTime->format("YmdHis");
 			$target_file = $target_dir . basename($fileObject["image"]["name"]);
 			$webtarget_file = $webtarget_dir . basename($fileObject["image"]["name"]);

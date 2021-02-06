@@ -63,6 +63,20 @@
 			}
 		}
 		
+		public static function getUsersByManagerId($managerId){
+			$query = "select * from user where manager_id = '".$managerId."';";
+			$resultSet = dbo::getResultSetForQuery($query);
+			$users = array();
+			if($resultSet != false){
+				while($row = mysqli_fetch_array($resultSet)){
+					$user = new User();
+					$user->populateByRow($row);
+					array_push($users, $user);
+				}
+			}
+			return $users;
+		}
+		
 		public static function getMaxId(){
 			$maxIdQuery = "select max(id) as id from user";
 			$maxIdResultSet = dbo::getResultSetForQuery($maxIdQuery);

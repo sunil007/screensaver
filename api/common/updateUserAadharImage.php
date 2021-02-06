@@ -1,6 +1,6 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
-	include_once __DIR__."/../config/salesp_security.php";
+	include_once __DIR__."/../config/sales_security.php";
 	include_once __DIR__."/../../model/OTP.php";
 	include_once __DIR__."/../../model/Token.php";
 	include_once __DIR__."/../../model/Response.php";
@@ -26,9 +26,9 @@
 			exit(0);
 		}
 		
-		$profileImagePath = Utility::uploadFile($_FILE);
+		$profileImagePath = Utility::uploadFile($_FILES);
 		if($profileImagePath){
-			User::updateUserAadharImage($user->id, $profileImagePath);
+			User::updateUserAadharImage($userObject->id, $profileImagePath);
 			echo Response::getSuccessResponse(null, 200);
 		}else{
 			echo Response::getFailureResponse(null, 414);

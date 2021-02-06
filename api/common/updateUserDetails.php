@@ -43,7 +43,7 @@
 			exit(0);
 		}
 		
-		User::updateUserDetails($userId, $userName, $userAddressLine1, $userAddressLine2, $userCity, $userState, $userPincode, $userAadhar, 0);
+		User::updateUserDetails($userObject->id, $userName, $userAddressLine1, $userAddressLine2, $userCity, $userState, $userPincode, $userAadhar, 0);
 		echo Response::getSuccessResponse(null, 200);
 		
 	}else{

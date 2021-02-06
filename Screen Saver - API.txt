@@ -376,3 +376,85 @@ Output
 			"message": "success"
 		}
 	}
+	
+16. Get My User List
+Url :  http://screensaver.classmatrix.in/api/common/getMyUserList.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"users": [
+				{
+					"id":"1",
+					"name":"User Name",
+					"phone":"xxxxxxx999",
+				}	
+			]
+		}
+	}
+
+17. Get My User List
+Url :  http://screensaver.classmatrix.in/api/common/getMyUserList.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"users": [
+				{
+					"id":"1",
+					"name":"User Name",
+					"phone":"xxxxxxx999",
+				}	
+			]
+		}
+	}
+	
+18. Get My User List
+Url :  http://screensaver.classmatrix.in/api/reviewer/getInActivePolicyList.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"policies": [
+				{
+					"id":"1",
+					...
+				}	
+			]
+		}
+	}
+	
+19. Validate Policy (Approve Validation)
+Url :  http://screensaver.classmatrix.in/api/reviewer/validatePolicy.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"policyId" : "123"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"message": "success"
+		}
+	}
