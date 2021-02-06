@@ -17,7 +17,7 @@
 				$mapElement = array();
 				$mapElement['id'] = $user->id;
 				$mapElement['name'] = $user->name;
-				$mapElement['phone'] = 'xxxx-xxx-'.substr($user->phone, -3);
+				$mapElement['phone'] = 'xxxx-xxx-'.substr($user->mobile, -3);
 				$mapElement['status'] = $user->status;
 				array_push($map['users'], $mapElement);
 			}
