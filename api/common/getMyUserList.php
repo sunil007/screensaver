@@ -18,7 +18,8 @@
 				$mapElement['id'] = $user->id;
 				$mapElement['name'] = $user->name;
 				$mapElement['phone'] = 'xxxx-xxx-'.substr($user->phone, -3);
-				array_push($map, $mapElement);
+				$mapElement['status'] = $user->status;
+				array_push($map['users'], $mapElement);
 			}
 			echo Response::getSuccessResponse($map, 200);
 		}else if($user->status == -1){
