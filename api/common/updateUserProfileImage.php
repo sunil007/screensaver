@@ -1,6 +1,6 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
-	include_once __DIR__."/../config/salesp_security.php";
+	include_once __DIR__."/../config/sales_security.php";
 	include_once __DIR__."/../../model/OTP.php";
 	include_once __DIR__."/../../model/Token.php";
 	include_once __DIR__."/../../model/Response.php";
