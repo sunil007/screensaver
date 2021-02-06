@@ -111,13 +111,19 @@
 			if($pincode != null && $pincode != "")
 				$query .= "`pincode` = '".Utility::clean($pincode)."', ";
 			if($aadhar != null && $aadhar != "")
-				$query .= "`aadhar` = '".Utility::clean($aadhar)."', ";
-			if($status != null && $status != "")
-				$query .= "`status` = '".Utility::clean($status)."' ";
-				
+				$query .= "`aadhar` = '".Utility::clean($aadhar)."' ";
 			$query .= " Where id=".$userid;	
 			//echo $query;
 			dbo::insertRecord($query);
+		}
+		
+		public static function updateUserStatus($userid, $status){
+			$query = "UPDATE `user` SET ";
+			if($status == 1)
+				$query .= "`status` = '1' ";
+			else
+				$query .= "`status` = '0' ";
+			$query .= " Where id=".$userid;	
 		}
 		
 		public static function updateUserProfileImage($userid, $imagePath){

@@ -458,3 +458,22 @@ Output
 			"message": "success"
 		}
 	}
+	
+	
+20. Update User Status
+Url :  http://screensaver.classmatrix.in/api/reviewer/updateUserStatus.php
+Input
+	{
+		"mobile" : "9999999999",
+		"token" : "123ksdfnjb123j12jn321m3",
+		"userMobile" : "9999999997",
+		"status" : "1"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"message": "success"
+		}
+	}
