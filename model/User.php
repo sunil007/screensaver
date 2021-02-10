@@ -135,6 +135,7 @@
 			else
 				$query .= "`status` = '0' ";
 			$query .= " Where id=".$userid;	
+			dbo::insertRecord($query);
 		}
 		
 		public static function updateUserProfileImage($userid, $imagePath){
