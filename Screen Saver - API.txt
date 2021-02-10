@@ -463,7 +463,7 @@ Output
 	
 	
 20. Update User Status
-Url :  http://screensaver.classmatrix.in/api/reviewer/updateUserStatus.php
+Url :  http://screensaver.classmatrix.in/api/common/updateUserStatus.php
 Input
 	{
 		"mobile" : "9999999999",
