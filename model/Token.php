@@ -54,6 +54,16 @@
 				return false;
 		}
 		
+		public static function getTokenUserId($tokenString, $mobileObtained){
+			$isValidToken = Token::validateToken($tokenString, $mobileObtained);
+			if($isValidToken){
+				$tokenArray = explode(".",$tokenString);
+				$userType = $tokenArray[2];
+				return $userType;
+			}else
+				return false;
+		}
+		
 		public static function validateRefreshToekn($tokenString, $refreshTokenString, $mobileObtained){
 			$tokenArray = explode(".",$refreshTokenString);
 			if(sizeof($tokenArray) != 5)

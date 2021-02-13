@@ -1,0 +1,41 @@
+╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪
+╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪ LOGIN API CALLS ╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪
+╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪╪
+
+1. Any User Login 
+Url :  http://onesecure.in/api/security/login.php
+Input
+	{
+		"userid" : "9999999999",
+		"password" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId" : "123",
+			"userType" : "USER",
+			"token" : "123ksdfnjb123j12jn321m3",
+			"refreshToken" : "123ksdfnjb123j12jn321m3"
+		}
+	}
+	
+2. Any User Login 
+Url :  http://screensaver.classmatrix.in/api/security/loginWithToken.php
+Input
+	{
+		"userId" : "123",
+		"token" : "123ksdfnjb123j12jn321m3"
+	}
+Output
+	{
+		"status" : "success",
+		"statusCode" : "200",
+		"response" : {
+			"userId" : "123",
+			"userType" : "USER",
+			"token" : "123ksdfnjb123j12jn321m3",
+			"refreshToken" : "123ksdfnjb123j12jn321m3"
+		}
+	}

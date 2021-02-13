@@ -1,8 +1,7 @@
 <?php include_once __DIR__."/dbo.php"; ?>
 <?php include_once __DIR__."/Utility.php"; ?>
-<?php include_once __DIR__."/Login.php"; ?>
 <?php
-	class User{
+	class SalesMan{
 		
 		public $id;
 		public $managerId;
@@ -35,7 +34,7 @@
 			$this->mobile = $row['mobile'];
 			$this->aadhar = $row['aadhar'];
 			$this->aadhar_photo = $row['aadhar_photo'];
-			$this->type = "USER";
+			$this->type = "SALESMAN";
 			$this->status = $row['status'];
 			if($this->status == 1)
 				$this->statusName = "Active";
@@ -66,35 +65,42 @@
 			return $map;
 		}
 		
-		public static function getUserById($userId){
-			$query = "select * from user where id = '".$userId."';";
+		public static function isSalesManValid($salesman){
+			if($salesman){
+				return ($salesman->status == 1);
+			}
+			return false;
+		}
+		
+		public static function getSalesManById($Id){
+			$query = "select * from sales_man where id = '".$Id."';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			if($resultSet != false){
 				$row = mysqli_fetch_array($resultSet);
-				$user = new User();
+				$user = new SalesMan();
 				$user->populateByRow($row);
 				return $user;
 			}
 		}
 		
-		public static function getUserByMobileNumber($mobileNumber){
-			$query = "select * from user where mobile = '".$mobileNumber."';";
+		public static function getSalesManByMobileNumber($mobileNumber){
+			$query = "select * from sales_man where mobile = '".$mobileNumber."';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			if($resultSet != false){
 				$row = mysqli_fetch_array($resultSet);
-				$user = new User();
+				$user = new SalesMan();
 				$user->populateByRow($row);
 				return $user;
 			}
 		}
 		
-		public static function getUsersByManagerId($managerId){
-			$query = "select * from user where manager_id = '".$managerId."';";
+		public static function getSalesManByManagerId($managerId){
+			$query = "select * from sales_man where manager_id = '".$managerId."';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			$users = array();
 			if($resultSet != false){
 				while($row = mysqli_fetch_array($resultSet)){
-					$user = new User();
+					$user = new SalesMan();
 					$user->populateByRow($row);
 					array_push($users, $user);
 				}
@@ -102,15 +108,8 @@
 			return $users;
 		}
 		
-		public static function isUserValid($retailer){
-			if($retailer){
-				return ($retailer->status == 1);
-			}
-			return false;
-		}
-		
 		public static function getMaxId(){
-			$maxIdQuery = "select max(id) as id from user";
+			$maxIdQuery = "select max(id) as id from sales_man";
 			$maxIdResultSet = dbo::getResultSetForQuery($maxIdQuery);
 			if($maxIdResultSet){
 				$maxRow = mysqli_fetch_array($maxIdResultSet);
@@ -120,19 +119,17 @@
 			return false;
 		}
 		
-		public static function createNewUserEntry($mobileNumber, $managerId){
+		public static function createNewSalesManEntry($mobileNumber, $managerId){
 			$maxUserid = User::getMaxId();
 			$newId = $maxUserid + 1;
-			$query = "INSERT INTO `user` (`id`, `manager_id`, `name`, `email`, `address_line1`, `address_line2`, `city`, `state`, `pincode`, `photo`, `mobile`, `aadhar`, `status`) VALUES (".$newId.", ".$managerId.", '', '', '', '', '', '', '', '', '".$mobileNumber."', '', '0');";
-			//echo $query;
+			$query = "INSERT INTO `sales_man` (`id`, `manager_id`, `name`, `email`, `address_line1`, `address_line2`, `city`, `state`, `pincode`, `photo`, `mobile`, `aadhar`, `status`) VALUES (".$newId.", ".$managerId.", '', '', '', '', '', '', '', '', '".$mobileNumber."', '', '0');";
 			dbo::insertRecord($query);
-			Login::createLogin($mobileNumber, "USER", $newId);
-			
+			Login::createLogin($mobileNumber, "SALESMAN", $newId);
 			return $newId;
 		}
 		
-		public static function updateUserDetails($userid, $name, $email, $addressLine1, $addressLine2, $city, $state, $pincode, $aadhar, $status){
-			$query = "UPDATE `user` SET ";
+		public static function updateSalesManDetails($userid, $name, $email, $addressLine1, $addressLine2, $city, $state, $pincode, $aadhar, $status){
+			$query = "UPDATE `sales_man` SET ";
 			if($name != null && $name != "")
 				$query .= "`name` = '".Utility::clean($name)."', ";
 			if($email != null && $email != "")
@@ -150,11 +147,12 @@
 			if($aadhar != null && $aadhar != "")
 				$query .= "`aadhar` = '".Utility::clean($aadhar)."' ";
 			$query .= " Where id=".$userid;	
+			//echo $query;
 			dbo::insertRecord($query);
 		}
 		
-		public static function updateUserStatus($userid, $status){
-			$query = "UPDATE `user` SET ";
+		public static function updateSalesManStatus($userid, $status){
+			$query = "UPDATE `sales_man` SET ";
 			if($status == 1)
 				$query .= "`status` = '1' ";
 			else
@@ -163,8 +161,8 @@
 			dbo::insertRecord($query);
 		}
 		
-		public static function updateUserProfileImage($userid, $imagePath){
-			$query = "UPDATE `user` SET ";
+		public static function updateSalesManProfileImage($userid, $imagePath){
+			$query = "UPDATE `sales_man` SET ";
 			if($imagePath != null && $imagePath != ""){
 				$query .= "`photo` = '".Utility::clean($imagePath)."' ";
 				$query .= " Where id=".$userid;	
@@ -172,13 +170,15 @@
 			}
 		}
 		
-		public static function updateUserAadharImage($userid, $imagePath){
-			$query = "UPDATE `user` SET ";
+		public static function updateSalesManAadharImage($userid, $imagePath){
+			$query = "UPDATE `sales_man` SET ";
 			if($imagePath != null && $imagePath != ""){
 				$query .= "`aadhar_photo` = '".Utility::clean($imagePath)."' ";
 				$query .= " Where id=".$userid;	
 				dbo::insertRecord($query);
 			}
 		}
+		
+		
 	}
 ?>

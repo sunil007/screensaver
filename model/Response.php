@@ -6,7 +6,7 @@
 			"201" => "No Match Found",
 			"401" => "Fail to generate OTP",
 			"402" => "OTP Validation Failed",
-			"403" => "Login Failed. Invalid Token",
+			"403" => "Login Failed",
 			"405" => "Token expired",
 			"406" => "Failed to generate new tokens",
 			"407" => "User with mobile number not fund",
@@ -20,7 +20,10 @@
 			"415" => "Policy Not Found",
 			"416" => "Access Denied",
 			"417" => "Cannot Validate Policy, Validation Time Expire",
-			"418" => "Cannot Activation Policy, Activation Time Expire"
+			"418" => "Cannot Activation Policy, Activation Time Expire",
+			"419" => "User not found",
+			"420" => "Retailer not found",
+			"421" => "Salesman not found",
 		);
 		
 		

@@ -1,31 +1,42 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
-	include_once __DIR__."/../../model/OTP.php";
-	include_once __DIR__."/../../model/Token.php";
-	include_once __DIR__."/../../model/Response.php";
-	include_once __DIR__."/../../model/User.php";
+	include_once __DIR__."/../../model/entity.php";
 		
-	if(isset($_POST['mobile']) && isset($_POST['token'])){
+	if(isset($_POST['userid']) && isset($_POST['password'])){
 		
-		$isValidToken = Token::validateToken($_POST['token'], $_POST['mobile']);
-		if($isValidToken){
-			$user = User::getUserByMobileNumber($_POST['mobile']);
-			if($user){
-				if($user->status == 1){
+		$loginUsers = Login::getUserByUserIdAndPassword($_POST['userid'], $_POST['password']);
+		if($loginUsers && sizeof($loginUsers) > 0){
+			
+			$userArray = array();
+			foreach($loginUsers as $loginUser){
+				if($loginUser->type == 'USER')
+					$user = User::getUserById($loginUser->ref_id);
+				else if($loginUser->type == 'RETAILER')
+					$user = Retailer::getRetailerById($loginUser->ref_id);
+				else if($loginUser->type == 'SALESMAN')
+					$user = SalesMan::getSalesManById($loginUser->ref_id);
+				else
+					$user = false;
+				if($user){
+					$tokenMap = Token::generateToken($user->mobile, $user->id, $user->type);
 					$message = array();
 					$message['userId'] = $user->id;
 					$message['type'] = $user->type;
-					echo Response::getSuccessResponse($message, 200);
-				}else if($user->status == -1){
-					echo Response::getFailureResponse(null, 408);
-				}else{
-					echo Response::getFailureResponse(null, 410);
+					$message['status'] = $user->status;
+					$message['token'] = $tokenMap['TOKEN'];
+					$message['refreshToken'] = $tokenMap['REFRESH'];
+					array_push($userArray, $message);
 				}
+			}
+			if($userArray && sizeof($userArray) > 0){
+				$details = array();
+				$details['users'] = $userArray;
+				echo Response::getSuccessResponse($details, 200);
 			}else{
 				echo Response::getFailureResponse(null, 407);
 			}
 		}else{
-			echo Response::getFailureResponse(null, 405);
+			echo Response::getFailureResponse(null, 403);
 		}		
 	}else{
 		echo Response::getFailureResponse(null, 409);

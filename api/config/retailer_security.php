@@ -3,8 +3,8 @@
 <?php 
 	if(isset($_POST['mobile']) && isset($_POST['token'])){
 		$tokenUserType = Token::getTokenUserType($_POST['token'], $_POST['mobile']);
-		if($tokenUserType && ($tokenUserType == "USER")){
-			//Valid User Call
+		if($tokenUserType && ($tokenUserType == 'RETAILER')){
+			//Valid SalesP Call
 		}else{
 			echo Response::getFailureResponse(null, 405);
 			exit(0);

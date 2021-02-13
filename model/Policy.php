@@ -1,4 +1,5 @@
 <?php include_once __DIR__."/dbo.php"; ?>
+<?php include_once __DIR__."/Utility.php"; ?>
 <?php
 	class Policy{
 		
@@ -8,9 +9,10 @@
 		public $mobileModel;
 		public $mobileCompany;
 		public $mobileCurrentPrice;
-		public $mobilePhoto;
+		public $mobilePhoto1;
+		public $mobilePhoto2;
 		public $mobileVideo;
-		public $salesManId;
+		public $retailerId;
 		public $approvedBy;
 		public $dateOfRegistration;
 		public $dateOfValidation;
@@ -58,7 +60,6 @@
 				$policy->populateByRow($row);
 				return $policy;
 			}
-			return $policies;
 		}
 		
 		public static function getPolicyByUseridExcludeExpired($userid){
@@ -96,9 +97,10 @@
 			$this->mobileModel = $row['mobileModel'];
 			$this->mobileCompany = $row['mobileCompany'];
 			$this->mobileCurrentPrice = $row['mobileCurrentPrice'];
-			$this->mobilePhoto = $row['mobilePhoto'];
-			$this->mobileVideo = $row['mobileVideo'];
-			$this->salesManId = $row['salesManId'];
+			$this->mobilePhoto1 = Utility::$webAssetPrefex.$row['mobilePhoto1'];
+			$this->mobilePhoto2 = Utility::$webAssetPrefex.$row['mobilePhoto2'];
+			$this->mobileVideo = Utility::$webAssetPrefex.$row['mobileVideo'];
+			$this->retailerId = $row['retailerId'];
 			$this->approvedBy = $row['approved_by'];
 			
 			if($row['dateOfRegistration'] != null && $row['dateOfRegistration'] != "" && $row['dateOfRegistration'])
@@ -163,9 +165,10 @@
 			$map['mobileModel'] = $this->mobileModel;
 			$map['mobileCompany'] = $this->mobileCompany;
 			$map['mobileCurrentPrice'] = $this->mobileCurrentPrice;
-			$map['mobilePhoto'] = $this->mobilePhoto;
+			$map['mobilePhoto1'] = $this->mobilePhoto1;
+			$map['mobilePhoto2'] = $this->mobilePhoto2;
 			$map['mobileVideo'] = $this->mobileVideo;
-			$map['salesManId'] = $this->salesManId;
+			$map['retailerId'] = $this->retailerId;
 			$map['approved_by'] = $this->approvedBy;
 			if($this->dateOfRegistration != null)
 				$map['dateOfRegistration'] = $this->dateOfRegistration->format('Y-m-d H:i:s');
@@ -184,6 +187,36 @@
 			else
 				$map['dateOfExpiration'] = "";
 			$map['serviceId'] = $this->serviceId;	
+			$map['policyPrice'] = $this->policyPrice;	
+			$map['status'] = $this->status;	
+			return $map;
+		}
+		
+		public function toPartialMapObject(){
+			$map = array();
+			$map['id'] = $this->id;
+			$map['userId'] = $this->userId;
+			$map['mobileIMEI'] = $this->mobileIMEI;
+			$map['mobileModel'] = $this->mobileModel;
+			$map['mobileCompany'] = $this->mobileCompany;
+			$map['mobileCurrentPrice'] = $this->mobileCurrentPrice;
+			$map['retailerId'] = $this->retailerId;
+			if($this->dateOfRegistration != null)
+				$map['dateOfRegistration'] = $this->dateOfRegistration->format('Y-m-d H:i:s');
+			else
+				$map['dateOfRegistration'] = "";
+			if($this->dateOfValidation != null)
+				$map['dateOfValidation'] = $this->dateOfValidation->format('Y-m-d H:i:s');
+			else
+				$map['dateOfValidation'] = "";
+			if($this->dateOfActivation != null)
+				$map['dateOfActivation'] = $this->dateOfActivation->format('Y-m-d H:i:s');
+			else
+				$map['dateOfActivation'] = "";
+			if($this->dateOfExpiration != null)
+				$map['dateOfExpiration'] = $this->dateOfExpiration->format('Y-m-d H:i:s');
+			else
+				$map['dateOfExpiration'] = "";
 			$map['policyPrice'] = $this->policyPrice;	
 			$map['status'] = $this->status;	
 			return $map;
@@ -208,12 +241,12 @@
 			return false;
 		}
 		
-		public static function createNewPolicyEntry($userMobile, $userId, $mobileIMEI, $mobileModel, $mobileCompany, $mobileCurrentPrice, $salesManId){
+		public static function createNewPolicyEntry($userMobile, $userId, $mobileIMEI, $mobileModel, $mobileCompany, $mobileCurrentPrice, $retailerId){
 			$mobileIMEI = Utility::clean($mobileIMEI);
 			$mobileModel = Utility::clean($mobileModel);
 			$mobileCompany = Utility::clean($mobileCompany);
 			$mobileCurrentPrice = Utility::clean($mobileCurrentPrice);
-			$salesManId = Utility::clean($salesManId);
+			$retailerId = Utility::clean($retailerId);
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
 			$premium = Policy::calculatePrice($mobileCurrentPrice, $mobileCompany, $mobileModel);
 			$userPolicies = Policy::getPolicyByUserid($userId);
@@ -228,12 +261,29 @@
 			$newId = $maxPolicyid + 1;
 			$query = "
 				INSERT INTO `policy` 
-				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto`, `mobileVideo`, `salesManId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
+				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto`, `mobileVideo`, `retailerId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
 				VALUES 
-				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '".$salesManId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
+				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '".$retailerId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
 			//echo $query;
 			dbo::insertRecord($query);
 			return $newId;
+		}
+		
+		public static function updatePolicyMobileImage1($policyId, $imagePath){
+			$query = "UPDATE `policy` SET ";
+			if($imagePath != null && $imagePath != ""){
+				$query .= "`mobilePhoto1` = '".Utility::clean($imagePath)."' ";
+				$query .= " Where id=".$policyId;	
+				dbo::insertRecord($query);
+			}
+		}
+		public static function updatePolicyMobileImage2($policyId, $imagePath){
+			$query = "UPDATE `policy` SET ";
+			if($imagePath != null && $imagePath != ""){
+				$query .= "`mobilePhoto2` = '".Utility::clean($imagePath)."' ";
+				$query .= " Where id=".$policyId;	
+				dbo::insertRecord($query);
+			}
 		}
 		
 		public static function validatePolicy($policyId, $approvedBy){

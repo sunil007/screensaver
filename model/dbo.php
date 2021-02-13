@@ -7,15 +7,15 @@ class DBReadConfig{
 	public $password;
 	
 	function __construct(){
-		//$this->user = "root";
-		//$this->host = "localhost";
-		//$this->db = "screen_saver";
-		//$this->password = "";
-		
-		$this->user = "u270279521_onesecureapi";
+		$this->user = "root";
 		$this->host = "localhost";
-		$this->db = "u270279521_onsecure";
-		$this->password = "Ronak123#";
+		$this->db = "onsecure";
+		$this->password = "";
+		
+		//$this->user = "u270279521_onesecureapi";
+		//$this->host = "localhost";
+		//$this->db = "u270279521_onsecure";
+		//$this->password = "Ronak123#";
     }
 }
 
@@ -26,15 +26,15 @@ class DBConfig{
 	public $password;
 	
 	function __construct(){
-		//$this->user = "root";
-		//$this->host = "localhost";
-		//$this->db = "screen_saver";
-		//$this->password = "";
-		
-		$this->user = "u332147108_screen_saver";
+		$this->user = "root";
 		$this->host = "localhost";
-		$this->db = "u332147108_screen_saver";
-		$this->password = "Sunil123";
+		$this->db = "onsecure";
+		$this->password = "";
+		
+		//$this->user = "u270279521_onesecureapi";
+		//$this->host = "localhost";
+		//$this->db = "u270279521_onsecure";
+		//$this->password = "Ronak123#";
     }
 }
 
@@ -103,6 +103,24 @@ class dbo{
 		mysqli_select_db($link,$dbConfig->db);
 		$result = mysqli_query($link, $query);
 		return $result;
+	}
+	
+	public static function executePreparedStatement($query, $paramsArray, $types){
+		$dbConfig = new DBConfig();
+		$link = new mysqli($dbConfig->host,$dbConfig->user,$dbConfig->password,$dbConfig->db);
+		$link->set_charset("utf8");
+		$stmt = $link->prepare($query);
+		$stmt->bind_param($types,...$paramsArray);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$num_rows = 0;
+		if($result)
+			$num_rows = mysqli_num_rows($result);
+		if($num_rows > 0)
+			return $result;
+		else
+			return false;
+		
 	}
 	
 	public static function insertRecordPreparedStatement($query, $paramsArray, $types){

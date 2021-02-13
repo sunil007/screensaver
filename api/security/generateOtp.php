@@ -5,8 +5,7 @@
 	include_once __DIR__."/../../model/Response.php";
 	include_once __DIR__."/../../model/User.php";
 		
-	if(isset($_POST['mobile']) && isset($_POST['timeStamp'])){
-		
+	if(isset($_POST['mobile']) && isset($_POST['timeStamp']) && isset($_POST['code']) && $_POST['code'] == 'IAMAJOKER'){
 		$otp = OTP::generateOTP($_POST['mobile'], $_POST['timeStamp']);
 		if($otp){
 			echo Response::getSuccessResponse(null, 200);

@@ -1,8 +1,7 @@
 <?php include_once __DIR__."/dbo.php"; ?>
 <?php include_once __DIR__."/Utility.php"; ?>
-<?php include_once __DIR__."/Login.php"; ?>
 <?php
-	class User{
+	class Retailer{
 		
 		public $id;
 		public $managerId;
@@ -12,6 +11,7 @@
 		public $aadhar_photo;
 		public $photo;
 		public $mobile;
+		public $business_name;
 		public $address_line1;
 		public $address_line2;
 		public $city;
@@ -26,6 +26,7 @@
 			$this->managerId = $row['manager_id'];
 			$this->name = $row['name'];
 			$this->email = $row['email'];
+			$this->business_name = $row['business_name'];
 			$this->address_line1 = $row['address_line1'];
 			$this->address_line2 = $row['address_line2'];
 			$this->city = $row['city'];
@@ -35,7 +36,7 @@
 			$this->mobile = $row['mobile'];
 			$this->aadhar = $row['aadhar'];
 			$this->aadhar_photo = $row['aadhar_photo'];
-			$this->type = "USER";
+			$this->type = "RETAILER";
 			$this->status = $row['status'];
 			if($this->status == 1)
 				$this->statusName = "Active";
@@ -51,6 +52,7 @@
 			$map['manager_id'] = $this->managerId;
 			$map['name'] = $this->name;
 			$map['email'] = $this->email;
+			$map['business_name'] = $this->business_name;
 			$map['address_line1'] = $this->address_line1;
 			$map['address_line2'] = $this->address_line2;
 			$map['city'] = $this->city;
@@ -66,30 +68,37 @@
 			return $map;
 		}
 		
-		public static function getUserById($userId){
-			$query = "select * from user where id = '".$userId."';";
+		public static function isRetailerValid($retailer){
+			if($retailer){
+				return ($retailer->status == 1);
+			}
+			return false;
+		}
+		
+		public static function getRetailerById($userId){
+			$query = "select * from retailer where id = '".$userId."';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			if($resultSet != false){
 				$row = mysqli_fetch_array($resultSet);
-				$user = new User();
+				$user = new Retailer();
 				$user->populateByRow($row);
 				return $user;
 			}
 		}
 		
-		public static function getUserByMobileNumber($mobileNumber){
-			$query = "select * from user where mobile = '".$mobileNumber."';";
+		public static function getRetailerByMobileNumber($mobileNumber){
+			$query = "select * from retailer where mobile = '".$mobileNumber."';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			if($resultSet != false){
 				$row = mysqli_fetch_array($resultSet);
-				$user = new User();
+				$user = new Retailer();
 				$user->populateByRow($row);
 				return $user;
 			}
 		}
 		
-		public static function getUsersByManagerId($managerId){
-			$query = "select * from user where manager_id = '".$managerId."';";
+		public static function getRetailerUsersByManagerId($managerId){
+			$query = "select * from retailer where manager_id = '".$managerId."';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			$users = array();
 			if($resultSet != false){
@@ -102,15 +111,8 @@
 			return $users;
 		}
 		
-		public static function isUserValid($retailer){
-			if($retailer){
-				return ($retailer->status == 1);
-			}
-			return false;
-		}
-		
 		public static function getMaxId(){
-			$maxIdQuery = "select max(id) as id from user";
+			$maxIdQuery = "select max(id) as id from retailer";
 			$maxIdResultSet = dbo::getResultSetForQuery($maxIdQuery);
 			if($maxIdResultSet){
 				$maxRow = mysqli_fetch_array($maxIdResultSet);
@@ -120,19 +122,17 @@
 			return false;
 		}
 		
-		public static function createNewUserEntry($mobileNumber, $managerId){
-			$maxUserid = User::getMaxId();
+		public static function createNewRetailerEntry($mobileNumber, $managerId){
+			$maxUserid = Retailer::getMaxId();
 			$newId = $maxUserid + 1;
-			$query = "INSERT INTO `user` (`id`, `manager_id`, `name`, `email`, `address_line1`, `address_line2`, `city`, `state`, `pincode`, `photo`, `mobile`, `aadhar`, `status`) VALUES (".$newId.", ".$managerId.", '', '', '', '', '', '', '', '', '".$mobileNumber."', '', '0');";
-			//echo $query;
+			$query = "INSERT INTO `retailer` (`id`, `manager_id`, `name`, `email`, `address_line1`, `address_line2`, `city`, `state`, `pincode`, `photo`, `mobile`, `aadhar`, `status`) VALUES (".$newId.", ".$managerId.", '', '', '', '', '', '', '', '', '".$mobileNumber."', '', '0');";
 			dbo::insertRecord($query);
-			Login::createLogin($mobileNumber, "USER", $newId);
-			
+			Login::createLogin($mobileNumber, "RETAILER", $newId);
 			return $newId;
 		}
 		
-		public static function updateUserDetails($userid, $name, $email, $addressLine1, $addressLine2, $city, $state, $pincode, $aadhar, $status){
-			$query = "UPDATE `user` SET ";
+		public static function updateRetailerDetails($userid, $name, $email, $addressLine1, $addressLine2, $city, $state, $pincode, $aadhar, $status){
+			$query = "UPDATE `retailer` SET ";
 			if($name != null && $name != "")
 				$query .= "`name` = '".Utility::clean($name)."', ";
 			if($email != null && $email != "")
@@ -150,11 +150,12 @@
 			if($aadhar != null && $aadhar != "")
 				$query .= "`aadhar` = '".Utility::clean($aadhar)."' ";
 			$query .= " Where id=".$userid;	
+			//echo $query;
 			dbo::insertRecord($query);
 		}
 		
-		public static function updateUserStatus($userid, $status){
-			$query = "UPDATE `user` SET ";
+		public static function updateRetailerStatus($userid, $status){
+			$query = "UPDATE `retailer` SET ";
 			if($status == 1)
 				$query .= "`status` = '1' ";
 			else
@@ -163,8 +164,8 @@
 			dbo::insertRecord($query);
 		}
 		
-		public static function updateUserProfileImage($userid, $imagePath){
-			$query = "UPDATE `user` SET ";
+		public static function updateRetailerProfileImage($userid, $imagePath){
+			$query = "UPDATE `retailer` SET ";
 			if($imagePath != null && $imagePath != ""){
 				$query .= "`photo` = '".Utility::clean($imagePath)."' ";
 				$query .= " Where id=".$userid;	
@@ -172,13 +173,15 @@
 			}
 		}
 		
-		public static function updateUserAadharImage($userid, $imagePath){
-			$query = "UPDATE `user` SET ";
+		public static function updateRetailerAadharImage($userid, $imagePath){
+			$query = "UPDATE `retailer` SET ";
 			if($imagePath != null && $imagePath != ""){
 				$query .= "`aadhar_photo` = '".Utility::clean($imagePath)."' ";
 				$query .= " Where id=".$userid;	
 				dbo::insertRecord($query);
 			}
 		}
+		
+		
 	}
 ?>
