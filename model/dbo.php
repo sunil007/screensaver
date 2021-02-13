@@ -12,10 +12,10 @@ class DBReadConfig{
 		//$this->db = "screen_saver";
 		//$this->password = "";
 		
-		$this->user = "u332147108_screen_saver";
+		$this->user = "u270279521_onesecureapi";
 		$this->host = "localhost";
-		$this->db = "u332147108_screen_saver";
-		$this->password = "Sunil123";
+		$this->db = "u270279521_onsecure";
+		$this->password = "Ronak123#";
     }
 }
 
