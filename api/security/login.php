@@ -21,6 +21,7 @@
 					$tokenMap = Token::generateToken($user->mobile, $user->id, $user->type);
 					$message = array();
 					$message['userId'] = $user->id;
+					$message['mobile'] = $user->mobile;
 					$message['type'] = $user->type;
 					$message['status'] = $user->status;
 					$message['token'] = $tokenMap['TOKEN'];

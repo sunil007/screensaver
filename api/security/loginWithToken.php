@@ -28,6 +28,7 @@
 					$message = array();
 					$message['userId'] = $user->id;
 					$message['type'] = $user->type;
+					$message['mobile'] = $user->mobile;
 					$message['token'] = $tokenMap['TOKEN'];
 					$message['refreshToken'] = $tokenMap['REFRESH'];
 					echo Response::getSuccessResponse($message, 200);
