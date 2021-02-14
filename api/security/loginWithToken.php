@@ -1,11 +1,6 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
-	include_once __DIR__."/../../model/OTP.php";
-	include_once __DIR__."/../../model/Token.php";
-	include_once __DIR__."/../../model/Response.php";
-	include_once __DIR__."/../../model/User.php";
-	include_once __DIR__."/../../model/Login.php";
-	include_once __DIR__."/../../model/Utility.php";
+	include_once __DIR__."/../../model/entity.php";
 		
 	if(isset($_POST['mobile']) && isset($_POST['token'])){
 		
@@ -17,6 +12,8 @@
 			$user = Retailer::getRetailerById($tokenUserId);
 		else if($tokenUserType == 'SALESMAN')
 			$user = SalesMan::getSalesManById($tokenUserId);
+		else if($tokenUserType == 'SALESEXECUTIVE')
+			$user = SalesExecutive::getSalesExecutiveById($tokenUserId);
 		else
 			$user = false;
 			

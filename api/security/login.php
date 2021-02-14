@@ -15,6 +15,8 @@
 					$user = Retailer::getRetailerById($loginUser->ref_id);
 				else if($loginUser->type == 'SALESMAN')
 					$user = SalesMan::getSalesManById($loginUser->ref_id);
+				else if($loginUser->type == 'SALESEXECUTIVE')
+					$user = SalesExecutive::getSalesExecutiveById($loginUser->ref_id);
 				else
 					$user = false;
 				if($user){

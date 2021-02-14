@@ -6,6 +6,7 @@
 	include_once __DIR__."/User.php";
 	include_once __DIR__."/Retailer.php";
 	include_once __DIR__."/SalesMan.php";
+	include_once __DIR__."/SalesExecutive.php";
 	include_once __DIR__."/Utility.php";
 	include_once __DIR__."/Policy.php";
 ?>
