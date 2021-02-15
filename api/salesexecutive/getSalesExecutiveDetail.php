@@ -6,7 +6,7 @@
 	$mobile = $_POST['mobile'];
 	$token = $_POST['token'];
 	$userId = Token::getTokenUserId($token, $mobile);
-	$salesExecutive = SalesExecutive::getSalesExecutiveById($userId);
+	$salesExecutive = SalesExecutive::getSalesExecutiveByIdAndMobileNumber($userId, $mobile);
 	if(!SalesExecutive::isSalesExecutiveValid($salesExecutive)){
 		echo Response::getFailureResponse(null, 421);exit(0);
 	}

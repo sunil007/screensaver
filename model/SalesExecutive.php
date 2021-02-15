@@ -83,6 +83,17 @@
 			}
 		}
 		
+		public static function getSalesExecutiveByIdAndMobileNumber($Id, $mobileNumber){
+			$query = "select * from sales_executive where id = '".$Id."' and mobile = '".$mobileNumber."';";
+			$resultSet = dbo::getResultSetForQuery($query);
+			if($resultSet != false){
+				$row = mysqli_fetch_array($resultSet);
+				$user = new SalesExecutive();
+				$user->populateByRow($row);
+				return $user;
+			}
+		}
+		
 		public static function getSalesExecutiveByMobileNumber($mobileNumber){
 			$query = "select * from sales_executive where mobile = '".$mobileNumber."';";
 			$resultSet = dbo::getResultSetForQuery($query);
