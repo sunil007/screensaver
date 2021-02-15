@@ -8,7 +8,7 @@
 	$userId = Token::getTokenUserId($token, $mobile);
 	$salesExecutive = SalesExecutive::getSalesExecutiveById($userId);
 	if(!SalesExecutive::isSalesExecutiveValid($salesExecutive)){
-		echo Response::getFailureResponse(null, 421);exit(0);
+		echo Response::getFailureResponse(null, 422);exit(0);
 	}
 	
 	if(isset($_POST['userMobile']) && is_numeric($_POST['userMobile']) && isset($_POST['userotp']) && is_numeric($_POST['userotp']) && isset($_POST['userTimestamp'])){

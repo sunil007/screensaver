@@ -24,6 +24,7 @@
 			"419" => "User not found",
 			"420" => "Retailer not found",
 			"421" => "Salesman not found",
+			"422" => "SalesExecutive not found"
 		);
 		
 		

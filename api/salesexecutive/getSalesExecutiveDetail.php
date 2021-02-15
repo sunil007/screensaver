@@ -8,7 +8,7 @@
 	$userId = Token::getTokenUserId($token, $mobile);
 	$salesExecutive = SalesExecutive::getSalesExecutiveByIdAndMobileNumber($userId, $mobile);
 	if(!SalesExecutive::isSalesExecutiveValid($salesExecutive)){
-		echo Response::getFailureResponse(null, 421);exit(0);
+		echo Response::getFailureResponse(null, 422);exit(0);
 	}
 	
 	if($salesExecutive){
