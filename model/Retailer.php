@@ -131,12 +131,14 @@
 			return $newId;
 		}
 		
-		public static function updateRetailerDetails($userid, $name, $email, $addressLine1, $addressLine2, $city, $state, $pincode, $aadhar, $status){
+		public static function updateRetailerDetails($userid, $name, $email, $businessName, $addressLine1, $addressLine2, $city, $state, $pincode, $aadhar, $status){
 			$query = "UPDATE `retailer` SET ";
 			if($name != null && $name != "")
 				$query .= "`name` = '".Utility::clean($name)."', ";
 			if($email != null && $email != "")
 				$query .= "`email` = '".Utility::clean($email)."', ";
+			if($businessName != null && $businessName != "")
+				$query .= "`business_name` = '".Utility::clean($businessName)."', ";
 			if($addressLine1 != null && $addressLine1 != "")
 				$query .= "`address_line1` = '".Utility::clean($addressLine1)."', ";
 			if($addressLine2 != null && $addressLine2 != "")

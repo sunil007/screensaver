@@ -34,6 +34,7 @@
 		$mobile = $_POST['mobile'];	
 		$userMobileNumber = $_POST['userMobile'];
 		$email = isset($_POST['email'])?$_POST['email']:"";
+		$businessName = isset($_POST['businessName'])?$_POST['businessName']:"";
 		
 		$userObject = User::getUserById($userId);
 		if(!$userObject || $userObject->status != 0){
@@ -41,7 +42,7 @@
 			exit(0);
 		}
 		
-		User::updateUserDetails($userObject->id, $userName, $email, $userAddressLine1, $userAddressLine2, $userCity, $userState, $userPincode, $userAadhar, 0);
+		User::updateUserDetails($userObject->id, $userName, $email, $businessName, $userAddressLine1, $userAddressLine2, $userCity, $userState, $userPincode, $userAadhar, 0);
 		echo Response::getSuccessResponse(null, 200);
 		
 	}else{
