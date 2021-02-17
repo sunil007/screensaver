@@ -14,6 +14,10 @@
 	if(isset($_POST['userId']) && isset($_POST['policyId']) && is_numeric($_POST['policyId'])){
 		
 		$policy = Policy::getPolicyById($_POST['policyId']);
+		if(!$policy){
+			echo Response::getFailureResponse(null, 415);
+			exit(0);
+		}
 		if($policy->userId != $_POST['userId']){
 			echo Response::getFailureResponse(null, 416);
 			exit(0);

@@ -261,9 +261,9 @@
 			$newId = $maxPolicyid + 1;
 			$query = "
 				INSERT INTO `policy` 
-				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto`, `mobileVideo`, `retailerId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
+				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto1`, `mobilePhoto2`, `mobileVideo`, `retailerId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
 				VALUES 
-				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '".$retailerId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
+				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '', '".$retailerId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
 			//echo $query;
 			dbo::insertRecord($query);
 			return $newId;
