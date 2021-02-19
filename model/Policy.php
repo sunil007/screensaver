@@ -285,6 +285,14 @@
 				dbo::insertRecord($query);
 			}
 		}
+		public static function updatePolicyMobileVideo($policyId, $imagePath){
+			$query = "UPDATE `policy` SET ";
+			if($imagePath != null && $imagePath != ""){
+				$query .= "`mobileVideo` = '".Utility::clean($imagePath)."' ";
+				$query .= " Where id=".$policyId;	
+				dbo::insertRecord($query);
+			}
+		}
 		
 		public static function validatePolicy($policyId, $approvedBy){
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');

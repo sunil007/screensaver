@@ -29,7 +29,7 @@
 		
 		$mobileVideoPath = Utility::uploadFile($_FILES, "policy/video/".$policy->id."/");
 		if($mobileVideoPath){
-			Policy::updatePolicyMobileImage($policy->id, $mobileVideoPath);
+			Policy::updatePolicyMobileVideo($policy->id, $mobileVideoPath);
 			echo Response::getSuccessResponse(null, 200);
 		}else{
 			echo Response::getFailureResponse(null, 414);
