@@ -24,7 +24,10 @@
 			"419" => "User not found",
 			"420" => "Retailer not found",
 			"421" => "Salesman not found",
-			"422" => "SalesExecutive not found"
+			"422" => "SalesExecutive not found",
+			"423" => "Invalid policy",
+			"424" => "Policy is lapsed",
+			"425" => "Policy is under review"
 		);
 		
 		
