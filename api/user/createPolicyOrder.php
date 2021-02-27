@@ -1,11 +1,8 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
 	include_once __DIR__."/../config/token_security.php";
-	include_once __DIR__."/../../model/OTP.php";
-	include_once __DIR__."/../../model/Token.php";
-	include_once __DIR__."/../../model/Response.php";
-	include_once __DIR__."/../../model/User.php";
-	include_once __DIR__."/../../model/Policy.php";
+	include_once __DIR__."/../../model/entity.php";
+	include_once __DIR__."/../../model/PolicyOrder.php";
 	
 	$mobile = $_POST['mobile'];
 	$token = $_POST['token'];
@@ -32,8 +29,10 @@
 						echo Response::getFailureResponse(null, 423);
 					}else{
 						/*API GATWAY*/
-						//Policy::underReviewPolicy($policy->id, -1);
-						echo Response::getSuccessResponse(null, 200);
+						$gatewayOrderid = PolicyOrder::createNewPolicyOrderEntry($policy->id, $policy->policyPrice);
+						$retObj = array();
+						$retObj['orderId'] = $gatewayOrderid;
+						echo Response::getSuccessResponse($retObj, 200);
 					}
 				}else if($policy->status == 'Under-Review'){
 					echo Response::getSuccessResponse(null, 425);

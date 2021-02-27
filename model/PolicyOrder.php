@@ -1,5 +1,7 @@
 <?php include_once __DIR__."/dbo.php"; ?>
 <?php include_once __DIR__."/Utility.php"; ?>
+<?php include_once __DIR__."/libs/razorpay/Razorpay.php"; ?>
+<?php use Razorpay\Api\Api; ?>
 <?php
 	class PolicyOrder{
 		
@@ -7,9 +9,12 @@
 		public $policyId;
 		public $orderCreated;
 		public $gatewayOrderId;
+		public $receipt;
 		public $orderStatus;
-
 		
+		public static $key_id = "rzp_test_ysSaMyhyI7W7jt";
+		public static $key_secret = "pGu0dvNQRlpXiSk5icugSXCO";
+	
 		public static function getPolicyOrderByGatewayOrderId($orderId){
 			$query = "select * from policy_order where gateway_order_id = ".$orderId.";";
 			$resultSet = dbo::getResultSetForQuery($query);
@@ -26,6 +31,7 @@
 			$this->policyId = $row['policy_id'];
 			$this->gatewayOrderId = $row['gateway_order_id'];
 			$this->orderStatus = $row['order_status'];
+			$this->receipt = $row['receipt'];
 			if($row['order_created'] != null && $row['order_created'] != "")
 				$this->orderCreated = new DateTime($row['order_created']);
 			else
@@ -39,6 +45,7 @@
 			$map['policy_id'] = $this->policyId;
 			$map['gateway_order_id'] = $this->gatewayOrderId;
 			$map['order_status'] = $this->orderStatus;
+			$map['receipt'] = $this->receipt;
 			if($this->orderCreated != null)
 				$map['order_created'] = $this->orderCreated->format('Y-m-d H:i:s');
 			else
@@ -56,14 +63,23 @@
 			return false;
 		}
 		
-		public static function createNewPolicyOrderEntry($policy_id){
+		public static function createNewPolicyOrderEntry($policy_id, $policy_amount){
+			$receipt = ((new DateTime())->format('Y-m-d-H-i-s'))."-".$policy_id."-".$policy_amount;
+			$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+			$order = $api->order->create(array(
+			  'receipt' => $receipt,
+			  'amount' => $policy_amount*100,
+			  'currency' => 'INR'
+			  )
+			);
+			$orderId = $order['id'];
 			$maxPolicyOrderid = PolicyOrder::getMaxId();
 			$newId = $maxPolicyOrderid + 1;
 			$currentTimeString = (new DateTime())->format('Y-m-d H:i:s');
 			$query = "
-				INSERT INTO `policy_order` (`id`, `policy_id`, `order_created`, `gateway_order_id`, `order_status`) VALUES (NULL, '".$policy_id."', '".$currentTimeString."', '', 'UnPaid');";
+				INSERT INTO `policy_order` (`id`, `policy_id`, `order_created`, `gateway_order_id`, `receipt`, `order_status`) VALUES (NULL, '".$policy_id."', '".$currentTimeString."', '".$orderId."', '".$receipt."', 'UnPaid');";
 			dbo::insertRecord($query);
-			return $newId;
+			return $orderId;
 		}
 		
 		public static function updatePolicyGatewayOrderId($id, $gateway_order_id){
