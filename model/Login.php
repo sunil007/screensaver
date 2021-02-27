@@ -49,5 +49,22 @@
 			$query = "INSERT INTO `login_detail` (`id`, `userid`, `password`, `type`, `ref_id`, `firebaseId`) VALUES (NULL, '".$userid."', 'NOPASSWORD', '".$userType."', '".$refid."', '')";
 			dbo::insertRecord($query);
 		}
+		
+		public static function isUserIdExist($userid){
+			$query = "select count(*) as 'count' from login_detail where userid = ?";
+			$paramsQuestionArray = array();
+			array_push($paramsQuestionArray, $userid);
+			$resultSet = dbo::executePreparedStatement($query, $paramsQuestionArray, "s");
+			$loginUserList = array();
+			if($resultSet != false){
+				$row = mysqli_fetch_array($resultSet);
+				$count = $row['count'];
+				if($count > 0)
+					return true;
+				else
+					return false;
+			}
+			return false;
+		}
 	}
 ?>

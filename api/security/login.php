@@ -17,6 +17,8 @@
 					$user = SalesMan::getSalesManById($loginUser->ref_id);
 				else if($loginUser->type == 'SALESEXECUTIVE')
 					$user = SalesExecutive::getSalesExecutiveById($loginUser->ref_id);
+				else if($loginUser->type == 'REVIEWER')
+					$user = Reviewer::getReviewerById($loginUser->ref_id);
 				else
 					$user = false;
 				if($user){

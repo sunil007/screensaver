@@ -1,18 +1,19 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
 	include_once __DIR__."/../config/reviewer_security.php";
-	include_once __DIR__."/../../model/OTP.php";
-	include_once __DIR__."/../../model/Token.php";
-	include_once __DIR__."/../../model/Response.php";
-	include_once __DIR__."/../../model/User.php";
-	include_once __DIR__."/../../model/Policy.php";
+	include_once __DIR__."/../../model/entity.php";
 	
 	$mobile = $_POST['mobile'];
+	$token = $_POST['token'];
+	$userId = Token::getTokenUserId($token, $mobile);
+	$reviewer = Reviewer::getReviewerById($userId);	
+	if(!Reviewer::isReviewerValid($reviewer)){
+		echo Response::getFailureResponse(null, 426);exit(0);
+	}	
 	
-	$user = User::getUserByMobileNumber($mobile);
-	if($user){
-		if($user->status == 1){
-			$userPolicyList = Policy::getAllPolicyForValidation($user->id);
+	if($reviewer){
+		if($reviewer->status == 1){
+			$userPolicyList = Policy::getAllPolicyForValidation($reviewer->id);
 				
 			$responseMap = array();
 			$responseMap['policies'] = array();

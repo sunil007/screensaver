@@ -1,25 +1,29 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
 	include_once __DIR__."/../config/reviewer_security.php";
-	include_once __DIR__."/../../model/OTP.php";
-	include_once __DIR__."/../../model/Token.php";
-	include_once __DIR__."/../../model/Response.php";
-	include_once __DIR__."/../../model/User.php";
-	include_once __DIR__."/../../model/Policy.php";
+	include_once __DIR__."/../../model/entity.php";
 	
 	$mobile = $_POST['mobile'];
+	$token = $_POST['token'];
+	$userId = Token::getTokenUserId($token, $mobile);
+	$reviewer = Reviewer::getReviewerById($userId);	
+	if(!Reviewer::isReviewerValid($reviewer)){
+		echo Response::getFailureResponse(null, 426);exit(0);
+	}
 	
-	if(isset($_POST['policyId']) && is_numeric($_POST['policyId'])){
-		$user = User::getUserByMobileNumber($mobile);
-		if($user){
-			if($user->status == 1){
+	if(isset($_POST['policyId']) && is_numeric($_POST['policyId']) && isset($_POST['action']) && ($_POST['action'] == 'ACTIVATE' || $_POST['action'] == 'REJECT')){
+		if($reviewer){
+			if($reviewer->status == 1){
 				$userPolicy = Policy::getPolicyById($_POST['policyId']);
-				if($userPolicy && $userPolicy->status == 'InActive' && $polict->dateOfRegistration != null && $polict->dateOfRegistration != ""){
-					$policyRegistration = $policy->dateOfRegistration;
+				if($userPolicy && $userPolicy->status == 'Under-Review' && $userPolicy->dateOfRegistration != null && $userPolicy->dateOfRegistration != ""){
+					$policyRegistration = $userPolicy->dateOfRegistration;
 					$policyRegistration->add(new DateInterval(Policy::$validationPeriodWindow));
 					$currentTime = new DateTime();
 					if($policyRegistration > $currentTime){
-						Policy::validatePolicy($_POST['policyId'], $user->id);
+						if($_POST['action'] == 'ACTIVATE')
+							Policy::activatePolicy($_POST['policyId'], $reviewer->id);
+						else if($_POST['action'] == 'REJECT')
+							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
 						echo Response::getSuccessResponse(null, 200);
 					}else{
 						echo Response::getFailureResponse(null, 417);

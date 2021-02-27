@@ -35,10 +35,10 @@
 		
 		*/
 		
-		public static $paymentPeriodWIndow = 'PT1440M';
-		public static $validationPeriodWindow = 'PT1440M';
-		public static $activationPeriodWindow = 'PT1440M';
-		public static $policyDuration = 'PT525600M';
+		public static $paymentPeriodWIndow = 'PT1440M'; //1 Day
+		public static $validationPeriodWindow = 'PT1440M'; //1 Day
+		public static $activationPeriodWindow = 'PT1440M'; //1 Day
+		public static $policyDuration = 'PT525600M'; //1 Year
 		
 		public static function getPolicyById($policyId){
 			$query = "select * from policy where id = ".$policyId.";";
@@ -90,8 +90,8 @@
 			return $policies;
 		}
 		
-		public static function getAllPolicyForValidation($userid){
-			$query = "select * from policy where status = 'InActive';";
+		public static function getAllPolicyForValidation($reviewerid){
+			$query = "select * from policy where status = 'Under-Review';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			$policies=array();
 			if($resultSet != false){
@@ -164,7 +164,7 @@
 			}else{
 				$this->status = "InActive";
 			}*/
-			if($this->dateOfActivation != null && $this->dateOfExpiration != null){
+			if($this->dateOfActivation != null && $this->dateOfExpiration != null && $this->status != 'Rejected'){
 				$currentTime = new DateTime();
 				if($currentTime > $this->dateOfExpiration)
 					$this->status = "Expired";
@@ -314,23 +314,30 @@
 			dbo::updateRecord($updateQuery);
 		}
 		
-		public static function lapsPolicy($policyId, $approvedBy){
+		public static function lapsPolicy($policyId){
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
-			$updateQuery = "UPDATE `policy` SET `approved_by` = '".$approvedBy."', `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Laps' WHERE `policy`.`id` = '".$policyId."'";
+			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Laps' WHERE `policy`.`id` = '".$policyId."'";
 			dbo::updateRecord($updateQuery);
 		}
 		
-		public static function underReviewPolicy($policyId, $approvedBy){
+		public static function underReviewPolicy($policyId){
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
-			$updateQuery = "UPDATE `policy` SET `approved_by` = '".$approvedBy."', `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Under-Review' WHERE `policy`.`id` = '".$policyId."'";
+			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Under-Review' WHERE `policy`.`id` = '".$policyId."'";
 			dbo::updateRecord($updateQuery);
 		}
 		
-		public static function activatePolicy($policyId){
+		public static function activatePolicy($policyId, $reviewer_id){
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
 			$expireWindow = new DateTime();
 			$expireWindow->add(new DateInterval(Policy::$policyDuration));
-			$updateQuery = "UPDATE `policy` SET `dateOfActivation` = '".$currentTimeStamp."', `dateOfExpiration` = '".$expireWindow."', `status` = 'Active' WHERE `policy`.`id` = '".$policyId."'";
+			$expireWindowString = $expireWindow->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `dateOfActivation` = '".$currentTimeStamp."', `dateOfExpiration` = '".$expireWindowString."', `approved_by` = '".$reviewer_id."', `status` = 'Active' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($updateQuery);
+		}
+		
+		public static function rejectPolicy($policyId, $reviewer_id){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `dateOfActivation` = '".$currentTimeStamp."', `dateOfExpiration` = '".$currentTimeStamp."', `approved_by` = '".$reviewer_id."', `status` = 'Rejected' WHERE `policy`.`id` = '".$policyId."'";
 			dbo::updateRecord($updateQuery);
 		}
 	}

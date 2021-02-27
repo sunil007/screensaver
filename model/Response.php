@@ -27,7 +27,8 @@
 			"422" => "SalesExecutive not found",
 			"423" => "Invalid policy",
 			"424" => "Policy is lapsed",
-			"425" => "Policy is under review"
+			"425" => "Policy is under review",
+			"426" => "Reviewer not found"
 		);
 		
 		
