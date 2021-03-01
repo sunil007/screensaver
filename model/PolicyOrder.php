@@ -83,7 +83,7 @@
 			return $orderId;
 		}
 		
-		public static function getPaymentStatusByOrderId($policy_id, $orderid, ){
+		public static function getPaymentStatusByOrderId($policy_id, $orderid){
 			$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
 			$payments = $api->order->fetch($orderid)->payments();
 			if(sizeof($payments) > 0 && isset($payments["items"]) && sizeof($payments["items"][0]) && isset($payments["items"][0]['amount'])){
@@ -91,6 +91,7 @@
 				$policy = Policy::getPolicyById($policy_id);
 				if($policy->policyPrice*100 == $payedAmount){
 					Policy::underReviewPolicy($policy_id);
+					PolicyOrder::updatePolicyOrderStatusByOrderId($orderid, "Paid")
 					return true;
 				}
 			}
@@ -105,6 +106,12 @@
 		
 		public static function updatePolicyOrderStatusPaid($id, $status){
 			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `id` = ".$id.";";
+			dbo::insertRecord($query);
+			return $newId;
+		}
+		
+		public static function updatePolicyOrderStatusByOrderId($orderid, $status){
+			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `gateway_order_id` = ".$orderid.";";
 			dbo::insertRecord($query);
 			return $newId;
 		}
