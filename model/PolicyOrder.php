@@ -111,7 +111,7 @@
 		}
 		
 		public static function updatePolicyOrderStatusByOrderId($orderid, $status){
-			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `gateway_order_id` = ".$orderid.";";
+			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `gateway_order_id` = '".$orderid."';";
 			dbo::insertRecord($query);
 			return $newId;
 		}
