@@ -28,7 +28,9 @@
 			"423" => "Invalid policy",
 			"424" => "Policy is lapsed",
 			"425" => "Policy is under review",
-			"426" => "Reviewer not found"
+			"426" => "Reviewer not found",
+			"427" => "Policy Amount Paid",
+			"428" => "Policy Amount UnPaid"
 		);
 		
 		

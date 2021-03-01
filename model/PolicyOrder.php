@@ -1,5 +1,6 @@
 <?php include_once __DIR__."/dbo.php"; ?>
 <?php include_once __DIR__."/Utility.php"; ?>
+<?php include_once __DIR__."/Policy.php"; ?>
 <?php include_once __DIR__."/libs/razorpay/Razorpay.php"; ?>
 <?php use Razorpay\Api\Api; ?>
 <?php
@@ -80,6 +81,20 @@
 				INSERT INTO `policy_order` (`id`, `policy_id`, `order_created`, `gateway_order_id`, `receipt`, `order_status`) VALUES (NULL, '".$policy_id."', '".$currentTimeString."', '".$orderId."', '".$receipt."', 'UnPaid');";
 			dbo::insertRecord($query);
 			return $orderId;
+		}
+		
+		public static function getPaymentStatusByOrderId($policy_id, $orderid, ){
+			$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+			$payments = $api->order->fetch($orderid)->payments();
+			if(sizeof($payments) > 0 && isset($payments["items"]) && sizeof($payments["items"][0]) && isset($payments["items"][0]['amount'])){
+				$payedAmount = $payments["items"][0]['amount'];
+				$policy = Policy::getPolicyById($policy_id);
+				if($policy->policyPrice*100 == $payedAmount){
+					Policy::underReviewPolicy($policy_id);
+					return true;
+				}
+			}
+			return false;
 		}
 		
 		public static function updatePolicyGatewayOrderId($id, $gateway_order_id){
