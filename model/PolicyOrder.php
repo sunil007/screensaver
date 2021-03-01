@@ -91,7 +91,7 @@
 				$policy = Policy::getPolicyById($policy_id);
 				if($policy->policyPrice*100 == $payedAmount){
 					Policy::underReviewPolicy($policy_id);
-					PolicyOrder::updatePolicyOrderStatusByOrderId($orderid, "Paid")
+					PolicyOrder::updatePolicyOrderStatusByOrderId($orderid, "Paid");
 					return true;
 				}
 			}
