@@ -14,7 +14,7 @@
 			$user = SalesMan::getSalesManById($tokenUserId);
 		else if($tokenUserType == 'SALESEXECUTIVE')
 			$user = SalesExecutive::getSalesExecutiveById($tokenUserId);
-		else if($loginUser->type == 'REVIEWER')
+		else if($tokenUserType == 'REVIEWER')
 			$user = Reviewer::getReviewerById($tokenUserId);
 		else
 			$user = false;
