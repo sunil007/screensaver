@@ -22,6 +22,9 @@
 					$dataObj = array();
 					$dataObj['model'] = $row['model'];
 					$dataObj['price'] = $row['price'];
+					$dataObj['policyAmount'] = Policy::calculatePolicyPrice($row['price']);
+					$dataObj['tax'] = Policy::calculatePolicyTax($dataObj['policyAmount']);
+					$dataObj['totalPrice'] = $dataObj['policyAmount']+$dataObj['tax'];
 					array_push($company, $dataObj);
 				}
 			}
