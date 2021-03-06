@@ -68,16 +68,16 @@
 			return $map;
 		}
 		
-		public function getSalesStatus($startDate, $endDate){
+		public static function getSalesStatus($startDate, $endDate, $retailerIds, $policyDetailNeeded){
 			if($startDate == null)
 				$startDate = new DateTime(date("Y-m-01 00:00:00"));
 			if($endDate == null)
 				$endDate = new DateTime(date("Y-m-t 00:00:00"));
 			
 			
-			$query = "select * from policy where dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."'";
+			$query = "select * from policy where retailerId in (".$retailerIds.") and dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."'";
 			$resultSet = dbo::getResultSetForQuery($query);
-			
+			//echo $query;
 			$resultmap = array();
 			$resultmap['StartDate'] = $startDate->format("Y-m-d");
 			$resultmap['EndDate'] = $endDate->format("Y-m-d");
@@ -88,9 +88,11 @@
 				while($row = mysqli_fetch_array($resultSet)){
 					if($row['status'] == 'Active'){
 						$resultmap['ActiveCount'] += 1;
-						$policyNode = new Policy();
-						$policyNode->populateByRow($row);
-						array_push($resultmap['ActivePolicy'],$policyNode->toPartialMapObject()); 
+						if($policyDetailNeeded){
+							$policyNode = new Policy();
+							$policyNode->populateByRow($row);
+							array_push($resultmap['ActivePolicy'],$policyNode->toPartialMapObject()); 
+						}
 					} 
 				}
 			}

@@ -18,7 +18,7 @@
 	if(isset($_POST['endDate']))
 		$endDate = new DateTime($_POST['endDate']);
 	
-	$salesStatus = $retailer->getSalesStatus($startDate, $endDate);
+	$salesStatus = Retailer::getSalesStatus($startDate, $endDate, $retailer->id, true);
 	
 	$map = array();
 	$map['status'] = $salesStatus;
