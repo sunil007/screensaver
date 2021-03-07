@@ -237,7 +237,9 @@
 		}
 		
 		public static function calculatePrice($mobileCurrentPrice, $mobileCompany, $mobileModel){
-			return (Policy::calculatePolicyPrice($mobileCurrentPrice) + Policy::calculatePolicyTax($mobileCurrentPrice));
+			$policyPrice = Policy::calculatePolicyPrice($mobileCurrentPrice);
+			$tax = Policy::calculatePolicyTax($policyPrice);
+			return ($policyPrice + $tax);
 		}
 		
 		public static function calculatePolicyPrice($mobileCurrentPrice){
@@ -248,8 +250,8 @@
 			return $premium;
 		}
 		
-		public static function calculatePolicyTax($price){
-			return ceil($price*0.18);
+		public static function calculatePolicyTax($policyPrice){
+			return ceil($policyPrice*0.18);
 		}
 		
 		public static function getMaxId(){

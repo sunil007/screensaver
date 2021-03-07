@@ -179,6 +179,51 @@
 			}
 		}
 		
-		
+		public static function getSalesStatus($startDate, $endDate, $salesMan){
+			if($startDate == null)
+				$startDate = new DateTime(date("Y-m-01 00:00:00"));
+			if($endDate == null)
+				$endDate = new DateTime(date("Y-m-t 23:59:59"));
+				
+			$myRetailerQuery = "SELECT id, name, business_name FROM `retailer` WHERE manager_id = ".$salesMan." and status = 1";
+			$retailerResultSet = dbo::getResultSetForQuery($myRetailerQuery);
+			$allRetailerId = "";
+			$allRetailerMap = array();
+			if($retailerResultSet){
+				while($row = mysqli_fetch_array($retailerResultSet)){
+					$retId = $row['id'];
+					$allRetailerId .= $retId.",";
+					$allRetailerMap[$retId] = array();
+					$allRetailerMap[$retId]['id'] = $row['id'];
+					$allRetailerMap[$retId]['name'] = $row['name'];
+					$allRetailerMap[$retId]['businessName'] = $row['business_name'];
+					$allRetailerMap[$retId]['activePolicyCount'] = 0;
+				}
+			}
+			if(substr($allRetailerId, -1) == ",")
+				$allRetailerId = substr_replace($allRetailerId,"",-1);
+			
+			$policyCountDate = "SELECT retailerId, count(*) as 'count' FROM `policy` where retailerId in (1) and status = 'Active' and dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."'";
+			$policyResultSet = dbo::getResultSetForQuery($policyCountDate);
+			if($policyResultSet){
+				while($row = mysqli_fetch_array($policyResultSet)){
+					$retId = $row['retailerId'];
+					$count = $row['count'];
+					if(isset($allRetailerMap[$retId])){
+						$allRetailerMap[$retId]['activePolicyCount'] = $count;
+					}
+				}
+			}
+			
+			$returnMap = array();
+			$returnMap['startDate'] = $startDate->format("Y-m-d");
+			$returnMap['endDate'] = $endDate->format("Y-m-d");
+			$returnMap['retailers'] = array();
+			
+			foreach($allRetailerMap as $obj){
+				array_push($returnMap['retailers'], $obj);
+			}
+			return $returnMap;
+		}
 	}
 ?>

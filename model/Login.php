@@ -66,5 +66,11 @@
 			}
 			return false;
 		}
+		
+		public static function updateFirebaseForMobileAndRefId($mobileNumber, $refId, $type, $firebaseId){
+			$query = "UPDATE `login_detail` SET `firebaseId` = '".$firebaseId."' WHERE `userid` = '".$mobileNumber."' and `type` = '".$type."' and `ref_id` = '".$refId."';";
+			//echo $query;
+			dbo::updateRecord($query);
+		}
 	}
 ?>
