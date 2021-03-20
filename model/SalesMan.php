@@ -197,6 +197,9 @@
 					$allRetailerMap[$retId]['id'] = $row['id'];
 					$allRetailerMap[$retId]['name'] = $row['name'];
 					$allRetailerMap[$retId]['businessName'] = $row['business_name'];
+					$allRetailerMap[$retId]['mobile'] = $row['mobile'];
+					$allRetailerMap[$retId]['address_line1'] = $row['address_line1'];
+					$allRetailerMap[$retId]['address_line2'] = $row['address_line2'];
 					$allRetailerMap[$retId]['activePolicyCount'] = 0;
 				}
 			}
