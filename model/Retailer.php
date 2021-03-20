@@ -75,7 +75,7 @@
 				$endDate = new DateTime(date("Y-m-t 23:59:59"));
 			
 			
-			$query = "select * from policy where retailerId in (".$retailerIds.") and dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."'";
+			$query = "select * from policy where retailerId in (".$retailerIds.") and dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."' order by dateOfActivation desc";
 			$resultSet = dbo::getResultSetForQuery($query);
 			//echo $query;
 			$resultmap = array();
