@@ -67,6 +67,25 @@
 			return false;
 		}
 		
+		public static function getLoginByRefIdAndType($refId, $type){
+			
+			$query = "select * from login_detail where ref_id = ? and type = ?";
+			$paramsQuestionArray = array();
+			array_push($paramsQuestionArray, $refId);
+			array_push($paramsQuestionArray, $type);
+			$resultSet = dbo::executePreparedStatement($query, $paramsQuestionArray, "ss");
+			$loginUserList = array();
+			if($resultSet != false){
+				while($row = mysqli_fetch_array($resultSet)){
+					$user = new Login();
+					$user->populateByRow($row);
+					array_push($loginUserList, $user);
+				}
+			}
+			return $loginUserList;
+		}
+		
+		
 		public static function updateFirebaseForMobileAndRefId($mobileNumber, $refId, $type, $firebaseId){
 			$query = "UPDATE `login_detail` SET `firebaseId` = '".$firebaseId."' WHERE `userid` = '".$mobileNumber."' and `type` = '".$type."' and `ref_id` = '".$refId."';";
 			//echo $query;

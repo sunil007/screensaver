@@ -11,4 +11,5 @@
 	include_once __DIR__."/Utility.php";
 	include_once __DIR__."/Policy.php";
 	include_once __DIR__."/Mobile.php";
+	include_once __DIR__."/FireBaseNotification.php";
 ?>

@@ -20,10 +20,14 @@
 					$policyRegistration->add(new DateInterval(Policy::$validationPeriodWindow));
 					$currentTime = new DateTime();
 					if($policyRegistration > $currentTime){
-						if($_POST['action'] == 'ACTIVATE')
+						if($_POST['action'] == 'ACTIVATE'){
 							Policy::activatePolicy($_POST['policyId'], $reviewer->id);
-						else if($_POST['action'] == 'REJECT')
+							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Activation","Your policy number ".$userPolicy->id." policy is activated.");
+						}
+						else if($_POST['action'] == 'REJECT'){
 							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
+							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Rejection","Your policy number ".$userPolicy->id." policy is rejected.");
+						}
 						echo Response::getSuccessResponse(null, 200);
 					}else{
 						echo Response::getFailureResponse(null, 417);
