@@ -185,7 +185,7 @@
 			if($endDate == null)
 				$endDate = new DateTime(date("Y-m-t 23:59:59"));
 				
-			$myRetailerQuery = "SELECT id, name, business_name FROM `retailer` WHERE manager_id = ".$salesMan." and status = 1";
+			$myRetailerQuery = "SELECT id, name, business_name, mobile, address_line1, address_line2 FROM `retailer` WHERE manager_id = ".$salesMan." and status = 1";
 			$retailerResultSet = dbo::getResultSetForQuery($myRetailerQuery);
 			$allRetailerId = "";
 			$allRetailerMap = array();
