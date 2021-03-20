@@ -5,5 +5,5 @@
 	$message = array();
 	$message['version'] = 1;
 	$responseMap['response'] = $message;
-	return json_encode($responseMap);
+	echo json_encode($responseMap);
 ?>
