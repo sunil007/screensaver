@@ -55,10 +55,10 @@
 			$map['city'] = $this->city;
 			$map['state'] = $this->state;
 			$map['pincode'] = $this->pincode;
-			$map['photo'] = $this->photo;
+			$map['photo'] = Utility::$webAssetPrefex.$this->photo;
 			$map['mobile'] = $this->mobile;
 			$map['aadhar'] = $this->aadhar;
-			$map['aadhar_photo'] = $this->aadhar_photo;
+			$map['aadhar_photo'] = Utility::$webAssetPrefex.$this->aadhar_photo;
 			$map['type'] = $this->type;
 			$map['status'] = $this->status;
 			$map['statusName'] = $this->statusName;
