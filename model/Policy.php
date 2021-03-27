@@ -254,6 +254,10 @@
 			return ceil($policyPrice*0.18);
 		}
 		
+		public static function calculateRetailerCommission($policyPrice){
+			return floor($policyPrice*0.15);
+		}
+		
 		public static function getMaxId(){
 			$maxIdQuery = "select max(id) as id from policy";
 			$maxIdResultSet = dbo::getResultSetForQuery($maxIdQuery);

@@ -22,11 +22,17 @@
 					if($policyRegistration > $currentTime){
 						if($_POST['action'] == 'ACTIVATE'){
 							Policy::activatePolicy($_POST['policyId'], $reviewer->id);
+							
+							/*Adding Commision to Retailer*/
+							$retailerComission = Policy::calculateRetailerCommission($userPolicy->policyPrice);
+							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "Policy ".$userPolicy->id." Commission");
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Activation","Your policy number ".$userPolicy->id." policy is activated.");
 						}
 						else if($_POST['action'] == 'REJECT'){
 							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Rejection","Your policy number ".$userPolicy->id." policy is rejected.");
+							
+							/*TODO : Refund Initiation*/
 						}
 						echo Response::getSuccessResponse(null, 200);
 					}else{

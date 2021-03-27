@@ -1,4 +1,4 @@
-<? include_once __DIR__."/Login.php"; ?>
+<?php include_once __DIR__."/Login.php"; ?>
 <?php
 	class FireBaseNotification{
 		private static $key = 'AAAAQ3OxKi0:APA91bF0dUCFsTkCsmMRYNTSoiIomyYIM1bKlVLb202uI4fo2D2ic29grnbSSNE55jEDght_Wh3MrNlkYyjBJOg301mu3pCabutw5uKRBNNeSQICfAoUqkwevuJA_uVDMzX5WU54J-7F';
