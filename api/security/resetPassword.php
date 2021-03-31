@@ -10,14 +10,10 @@
 		
 		$isValidOtp = OTP::validateOTP($_POST['mobile'], $_POST['timeStamp'], $_POST['otp']);
 		if($isValidOtp){
-			$user = User::getUserByMobileNumber($_POST['mobile']);
+			$user = Login::isUserIdExist($_POST['mobile']);
 			if($user){
-				if($user->status == 1){
-					Login::updatePassword($_POST['mobile'], $_POST['newPassword']);
-					echo Response::getSuccessResponse(null, 200);
-				}else{
-					echo Response::getFailureResponse(null, 408);
-				}
+				Login::updatePassword($_POST['mobile'], $_POST['newPassword']);
+				echo Response::getSuccessResponse(null, 200);
 			}else{
 				echo Response::getFailureResponse(null, 407);
 			}
