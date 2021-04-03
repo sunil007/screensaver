@@ -12,6 +12,7 @@
 	include_once __DIR__."/Policy.php";
 	include_once __DIR__."/Mobile.php";
 	include_once __DIR__."/Transaction.php";
+	include_once __DIR__."/CompanyDetails.php";
 	include_once __DIR__."/Wallet.php";
 	include_once __DIR__."/FireBaseNotification.php";
 ?>

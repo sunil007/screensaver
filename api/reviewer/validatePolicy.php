@@ -2,6 +2,7 @@
 	include_once __DIR__."/../config/timezone.php";
 	include_once __DIR__."/../config/reviewer_security.php";
 	include_once __DIR__."/../../model/entity.php";
+	include_once __DIR__."/../../model/PolicyOrder.php";
 	
 	$mobile = $_POST['mobile'];
 	$token = $_POST['token'];
@@ -31,11 +32,13 @@
 						else if($_POST['action'] == 'REJECT'){
 							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Rejection","Your policy number ".$userPolicy->id." policy is rejected.");
-							
+							PolicyOrder::initiateRefund($_POST['policyId'], Policy::$REJECT_REFUND_PERCENT);
 							/*TODO : Refund Initiation*/
 						}
 						echo Response::getSuccessResponse(null, 200);
 					}else{
+						Policy::lapsPolicy($_POST['policyId']);
+						PolicyOrder::initiateRefund($_POST['policyId'], Policy::$LAPS_REFUND_PERCENT);
 						echo Response::getFailureResponse(null, 417);
 					}
 				}else{

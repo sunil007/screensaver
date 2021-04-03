@@ -20,6 +20,8 @@
 		public $dateOfExpiration;
 		public $serviceId;
 		public $policyPrice;
+		public $policyTax;
+		public $policyTotalAmount;
 		public $status;  //InActive/Under-Review/Active/Rejected/Laps/Under-Clame/Clame-Approved/Clame-Rejected/Expired
 		/*
 			Policy Created --> InActive
@@ -39,6 +41,9 @@
 		public static $validationPeriodWindow = 'PT1440M'; //1 Day
 		public static $activationPeriodWindow = 'PT1440M'; //1 Day
 		public static $policyDuration = 'PT525600M'; //1 Year
+		
+		public static $REJECT_REFUND_PERCENT = "98";
+		public static $LAPS_REFUND_PERCENT = "100";
 		
 		public static function getPolicyById($policyId){
 			$query = "select * from policy where id = ".$policyId.";";
@@ -139,6 +144,8 @@
 
 			$this->serviceId = $row['serviceId'];
 			$this->policyPrice = $row['policyPrice'];
+			$this->policyTax = $row['policyTax'];
+			$this->policyTotalAmount = $this->policyPrice + $this->policyTax;
 			
 			$this->status = $row['status'];
 			/*if($this->dateOfRegistration == null){
@@ -276,7 +283,8 @@
 			$mobileCurrentPrice = Utility::clean($mobileCurrentPrice);
 			$retailerId = Utility::clean($retailerId);
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
-			$premium = Policy::calculatePrice($mobileCurrentPrice, $mobileCompany, $mobileModel);
+			$premium = Policy::calculatePolicyPrice($mobileCurrentPrice);
+			$premiumTax = Policy::calculatePolicyTax($premium);
 			$userPolicies = Policy::getPolicyByUserid($userId);
 			foreach($userPolicies as $userPoliciy){
 				if($userPoliciy->status != "Expired" && $userPoliciy->status != "Laps" && $userPoliciy->status != "Clamed"){
@@ -289,9 +297,9 @@
 			$newId = $maxPolicyid + 1;
 			$query = "
 				INSERT INTO `policy` 
-				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto1`, `mobilePhoto2`, `mobileVideo`, `retailerId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `status`) 
+				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto1`, `mobilePhoto2`, `mobileVideo`, `retailerId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `policyTax`, `status`) 
 				VALUES 
-				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '', '".$retailerId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', 'InActive');";
+				(".$newId.", '".$userId."', '".$mobileIMEI."', '".$mobileModel."', '".$mobileCompany."', '".$mobileCurrentPrice."', '', '', '', '".$retailerId."','-1', '".$currentTimeStamp."', NULL, NULL, '-1', '".$premium."', '".$premiumTax."', 'InActive');";
 			//echo $query;
 			dbo::insertRecord($query);
 			return $newId;

@@ -29,7 +29,7 @@
 						echo Response::getFailureResponse(null, 423);
 					}else{
 						/*API GATWAY*/
-						$gatewayOrderid = PolicyOrder::createNewPolicyOrderEntry($policy->id, $policy->policyPrice);
+						$gatewayOrderid = PolicyOrder::createNewPolicyOrderEntry($policy->id, $policy->policyTotalAmount);
 						$retObj = array();
 						$retObj['orderId'] = $gatewayOrderid;
 						echo Response::getSuccessResponse($retObj, 200);

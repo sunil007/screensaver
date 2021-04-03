@@ -11,7 +11,7 @@
 		public $orderCreated;
 		public $gatewayOrderId;
 		public $receipt;
-		public $orderStatus;
+		public $orderStatus; //Paid/UnPaid/Refunded
 		
 		public static $key_id = "rzp_test_ysSaMyhyI7W7jt";
 		public static $key_secret = "pGu0dvNQRlpXiSk5icugSXCO";
@@ -86,7 +86,7 @@
 		public static function getPaymentStatusByOrderId($policy_id, $orderid){
 			$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
 			$payments = $api->order->fetch($orderid)->payments();
-			if(sizeof($payments) > 0 && isset($payments["items"]) && sizeof($payments["items"][0]) && isset($payments["items"][0]['amount'])){
+			if(isset($payments["items"]) && sizeof($payments["items"]) > 0 && isset($payments["items"][0]['amount'])){
 				$payedAmount = $payments["items"][0]['amount'];
 				$policy = Policy::getPolicyById($policy_id);
 				if($policy->policyPrice*100 == $payedAmount){
@@ -98,22 +98,64 @@
 			return false;
 		}
 		
+		public static function getPolicyOrderForPoilicy($status, $policy_id){
+			$query = "SELECT * FROM `policy_order` where `policy_id` = ".$policy_id." and `order_status` in (".$status.")";
+			$ResultSet = dbo::getResultSetForQuery($query);
+			if($ResultSet){
+				$row = mysqli_fetch_array($ResultSet);
+				$policyOrder = new PolicyOrder();
+				$policyOrder->populateByRow($row);
+				return $policyOrder;
+			}
+			return false;
+		}
+		
+		public static function initiateRefund($policy_id, $percentRefund){
+			$policyOrderObj = PolicyOrder::getPolicyOrderForPoilicy("'Paid'",$policy_id);
+			if($policyOrderObj){
+				$orderid = $policyOrderObj->gatewayOrderId;
+				$policyOrderid = $policyOrderObj->id;
+				$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+				$payments = $api->order->fetch($orderid)->payments();
+				if(isset($payments["items"]) && sizeof($payments["items"]) > 0 && isset($payments["items"][0]['amount'])){
+					$payedId = $payments["items"][0]['id'];
+					$payedAmount = $payments["items"][0]['amount'];
+					if(is_numeric($payedAmount) && is_numeric($percentRefund) && $percentRefund <= 100){
+						$refundAmount = floor(($payedAmount*$percentRefund)/100);
+						$refund = $api->refund->create(array('payment_id' => $payedId, 'amount'=>$refundAmount));
+						PolicyOrder::updatePolicyOrderStatusRefunded($policyOrderid, 'Refunded');
+						return true;
+					}
+				}else{
+					return false;
+				}
+			}else{
+				return false;
+			}
+		}
+		
 		public static function updatePolicyGatewayOrderId($id, $gateway_order_id){
 			$query = "UPDATE `policy_order` SET `gateway_order_id` = '".$gateway_order_id."' WHERE `id` = ".$id.";";
 			dbo::insertRecord($query);
-			return $newId;
+			//return $newId;
 		}
 		
 		public static function updatePolicyOrderStatusPaid($id, $status){
 			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `id` = ".$id.";";
 			dbo::insertRecord($query);
-			return $newId;
+			//return $newId;
+		}
+		
+		public static function updatePolicyOrderStatusRefunded($id, $status){
+			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `id` = ".$id.";";
+			dbo::insertRecord($query);
+			//return $newId;
 		}
 		
 		public static function updatePolicyOrderStatusByOrderId($orderid, $status){
 			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `gateway_order_id` = '".$orderid."';";
 			dbo::insertRecord($query);
-			return $newId;
+			//return $newId;
 		}
 	}
 ?>
