@@ -11,9 +11,11 @@
 		echo Response::getFailureResponse(null, 419);exit(0);
 	}
 	
+	$transactionCount = (isset($_POST['count']) && is_numeric($_POST['count']))?$_POST['count']:20;
+	
 	if($retailer){
 		if($retailer->status == 1){
-			$retailerTransaction = Transaction::getTransactionsByEntity($retailer->id, $retailer->type, 20);
+			$retailerTransaction = Transaction::getTransactionsByEntity($retailer->id, $retailer->type, $transactionCount);
 			$retailerWallet = Wallet::getWalletByEntity($retailer->id, $retailer->type);
 			$responseMap = array();
 			$responseMap['balance'] = 0;
