@@ -89,7 +89,7 @@
 			if(isset($payments["items"]) && sizeof($payments["items"]) > 0 && isset($payments["items"][0]['amount'])){
 				$payedAmount = $payments["items"][0]['amount'];
 				$policy = Policy::getPolicyById($policy_id);
-				if($policy->policyPrice*100 == $payedAmount){
+				if($policy->policyTotalAmount*100 == $payedAmount){
 					Policy::underReviewPolicy($policy_id);
 					PolicyOrder::updatePolicyOrderStatusByOrderId($orderid, "Paid");
 					return true;
