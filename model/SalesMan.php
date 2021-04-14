@@ -206,7 +206,7 @@
 			if(substr($allRetailerId, -1) == ",")
 				$allRetailerId = substr_replace($allRetailerId,"",-1);
 			
-			$policyCountDate = "SELECT retailerId, count(*) as 'count' FROM `policy` where retailerId in (1) and status = 'Active' and dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."' group by retailerId";
+			$policyCountDate = "SELECT retailerId, count(*) as 'count' FROM `policy` where retailerId in (".$allRetailerId.") and status = 'Active' and dateOfActivation >= '".$startDate->format('Y-m-d H:i:s')."' and dateOfActivation <= '".$endDate->format('Y-m-d H:i:s')."' group by retailerId";
 			//echo $policyCountDate;
 			$policyResultSet = dbo::getResultSetForQuery($policyCountDate);
 			if($policyResultSet){
