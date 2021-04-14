@@ -43,8 +43,8 @@
 	$pdf->Cell(34 ,5,$policyOrder->orderCreated->format('d M, Y'),0,1);
 	 
 	$pdf->Cell(130 ,5,'',0,0);
-	$pdf->Cell(25 ,5,'Status:',0,0);
-	$pdf->Cell(34 ,5,$policyOrder->orderStatus,0,1);
+	$pdf->Cell(25 ,5,'',0,0);
+	$pdf->Cell(34 ,5,'',0,1);
 
 
 	$pdf->SetFont('Arial','B',10);
@@ -59,8 +59,8 @@
 	$pdf->SetFont('Arial','',10);
 	
 
-	$headerArray = array("Sr","Description","AMC No.","Price (Rs.)","Tax (Rs.)","Total (Rs.)");
-	$widthArray = array(10,90,20,25,25,30);
+	$headerArray = array("Sr","Description","AMC No.","Price (Rs.)","CGST (9%)","SGST (9%)","Total (Rs.)");
+	$widthArray = array(10,90,20,25,25,25,30);
 	$alighArray = array("C","L","R","C","C","C");
 	$dataArray = array();
 	$description = "AMC ".$policy->mobileCompany." ".$policy->mobileModel." ".$policy->mobileIMEI ."\n"."Status : ".$policy->status;
@@ -71,7 +71,8 @@
 		$description, 
 		$policy->id,
 		$policy->policyPrice,
-		$policy->policyTax,
+		number_format($policy->policyTax/2,1),
+		number_format($policy->policyTax/2,1),
 		$policy->policyTotalAmount
 	);
 	array_push($dataArray,$dataRow);

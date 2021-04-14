@@ -27,11 +27,11 @@
 							/*Adding Commision to Retailer*/
 							$retailerComission = Policy::calculateRetailerCommission($userPolicy->policyPrice);
 							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "Policy ".$userPolicy->id." Commission");
-							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Activation","Your policy number ".$userPolicy->id." policy is activated.");
+							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Activation","Your AMC number ".$userPolicy->id." is activated.");
 						}
 						else if($_POST['action'] == 'REJECT'){
 							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
-							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "Policy Status - Rejection","Your policy number ".$userPolicy->id." policy is rejected.");
+							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Rejection","Your AMC number ".$userPolicy->id." is rejected and you amount refund is initiated.");
 							PolicyOrder::initiateRefund($_POST['policyId'], Policy::$REJECT_REFUND_PERCENT);
 							/*TODO : Refund Initiation*/
 						}

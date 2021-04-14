@@ -6,7 +6,7 @@
 			"201" => "No Match Found",
 			"401" => "Fail to generate OTP",
 			"402" => "OTP Validation Failed",
-			"403" => "Login Failed",
+			"403" => "Incorrect login id or password provided",
 			"405" => "Token expired",
 			"406" => "Failed to generate new tokens",
 			"407" => "User with mobile number not fund",
