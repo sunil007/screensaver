@@ -6,20 +6,19 @@
 	include_once __DIR__."/../../model/User.php";
 	include_once __DIR__."/../../model/Login.php";
 		
-	if(isset($_POST['mobile']) && isset($_POST['timeStamp']) && isset($_POST['otp']) && isset($_POST['newPassword'])){
-		
-		$isValidOtp = OTP::validateOTP($_POST['mobile'], $_POST['timeStamp'], $_POST['otp']);
-		if($isValidOtp){
-			$user = Login::isUserIdExist($_POST['mobile']);
-			if($user){
-				Login::updatePassword($_POST['mobile'], $_POST['newPassword']);
-				echo Response::getSuccessResponse(null, 200);
-			}else{
-				echo Response::getFailureResponse(null, 407);
+	if(isset($_POST['mobile']) && isset($_POST['userid']) && isset($_POST['type']) && isset($_POST['currentPassword']) && isset($_POST['newPassword'])){
+		$logins = Login::getLoginByRefIdAndType($_POST['userid'], $_POST['type']);
+		$isDone = false;
+		foreach($logins as $login){
+			if($login->userid == $_POST['mobile'] && $login->password == $_POST['currentPassword']){
+				Login::updatePasswordById($login->id, $_POST['newPassword']);
+				$isDone = true;
 			}
-		}else{
-			echo Response::getFailureResponse(null, 402);
-		}		
+		}
+		if($isDone)
+			echo Response::getSuccessResponse(null, 200);		
+		else
+			echo Response::getFailureResponse(null, 429);
 	}else{
 		echo Response::getFailureResponse(null, 409);
 	}

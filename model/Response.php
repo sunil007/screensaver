@@ -15,22 +15,23 @@
 			"410" => "Mobile number is inactive",
 			"411" => "Cannot create user, mobile number already register",
 			"412" => "Sales person not found",
-			"413" => "Policy already registered with given IMEI number",
+			"413" => "AMC already registered with given IMEI number",
 			"414" => "Fail to upload",
-			"415" => "Policy Not Found",
+			"415" => "AMC Not Found",
 			"416" => "Access Denied",
-			"417" => "Cannot Validate Policy, Validation Time Expire",
-			"418" => "Cannot Activation Policy, Activation Time Expire",
+			"417" => "Cannot Validate AMC, Validation Time Expire",
+			"418" => "Cannot Activation AMC, Activation Time Expire",
 			"419" => "User not found",
 			"420" => "Retailer not found",
 			"421" => "Salesman not found",
 			"422" => "SalesExecutive not found",
-			"423" => "Invalid policy",
-			"424" => "Policy is lapsed",
-			"425" => "Policy is under review",
+			"423" => "Invalid AMC",
+			"424" => "AMC is lapsed",
+			"425" => "AMC is under review",
 			"426" => "Reviewer not found",
-			"427" => "Policy Amount Paid",
-			"428" => "Policy Amount UnPaid"
+			"427" => "AMC Amount Paid",
+			"428" => "AMC Amount UnPaid",
+			"429" => "Incorrect current password provided"
 		);
 		
 		

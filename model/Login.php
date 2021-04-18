@@ -45,8 +45,18 @@
 			dbo::insertRecordPreparedStatement($query, $paramsQuestionArray, "ss");
 		}
 		
+		public static function updatePasswordById($id, $newPassword){
+			$query = "update login_detail set password = ? where id = ?";
+			$paramsQuestionArray = array();
+			array_push($paramsQuestionArray, $newPassword);
+			array_push($paramsQuestionArray, $id);
+			dbo::insertRecordPreparedStatement($query, $paramsQuestionArray, "ss");
+		}
+		
 		public static function createLogin($userid, $userType, $refid){
-			$query = "INSERT INTO `login_detail` (`id`, `userid`, `password`, `type`, `ref_id`, `firebaseId`) VALUES (NULL, '".$userid."', 'NOPASSWORD', '".$userType."', '".$refid."', '')";
+			$currentTime = new DateTime();
+			$password = $currentTime->format("His");
+			$query = "INSERT INTO `login_detail` (`id`, `userid`, `password`, `type`, `ref_id`, `firebaseId`) VALUES (NULL, '".$userid."', '".$password."', '".$userType."', '".$refid."', '')";
 			dbo::insertRecord($query);
 		}
 		

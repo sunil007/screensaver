@@ -20,6 +20,8 @@
 		public $type;
 		public $status;  //1 --> Active, 0 --> InActive, -1 --> Black Listed
 		public $statusName;
+		public $acno;
+		public $ifsc;
 		
 		public function populateByRow($row){
 			$this->id = $row['id'];
@@ -44,6 +46,9 @@
 				$this->statusName = "Black Listed";
 			else
 				$this->statusName = "InActive";
+			$this->acno = $row['acno'];
+			$this->ifsc = $row['ifsc'];
+			
 		}
 		
 		public function toMapObject(){
@@ -65,6 +70,8 @@
 			$map['type'] = $this->type;
 			$map['status'] = $this->status;
 			$map['statusName'] = $this->statusName;
+			$map['acno'] = $this->acno;
+			$map['ifsc'] = $this->ifsc;
 			return $map;
 		}
 		
@@ -182,6 +189,14 @@
 				$query .= "`pincode` = '".Utility::clean($pincode)."', ";
 			if($aadhar != null && $aadhar != "")
 				$query .= "`aadhar` = '".Utility::clean($aadhar)."' ";
+			$query .= " Where id=".$userid;	
+			//echo $query;
+			dbo::insertRecord($query);
+		}
+		
+		public static function updateRetailerBankDetails($userid, $acno, $ifsc){
+			$query = "UPDATE `retailer` SET ";
+			$query .= "`acno` = '".$acno."',  `ifsc` = '".$ifsc."'";
 			$query .= " Where id=".$userid;	
 			//echo $query;
 			dbo::insertRecord($query);
