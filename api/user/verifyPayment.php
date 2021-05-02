@@ -21,6 +21,8 @@
 				if($policy->status == 'InActive'){
 					$isPaymentDone = PolicyOrder::getPaymentStatusByOrderId($policy->id, $_POST['orderId']);
 					if($isPaymentDone){
+						/*Notification To Reviewer*/
+						FireBaseNotification::SendNotificationToUser(null, "REVIEWER", "New AMC Available to Review","New AMC Available to Review.");
 						echo Response::getSuccessResponse(null, 427);
 					}else{
 						echo Response::getFailureResponse(null, 428);

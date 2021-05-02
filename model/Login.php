@@ -79,11 +79,22 @@
 		
 		public static function getLoginByRefIdAndType($refId, $type){
 			
-			$query = "select * from login_detail where ref_id = ? and type = ?";
+			$query = "select * from login_detail where ";
+			$argsType = "";
+			if($refId != null){
+				$query .= " ref_id = ? ";
+				$argsType .= "s";
+			}
+			$query .= " and type = ?";
+			$argsType .= "s";
+			
 			$paramsQuestionArray = array();
-			array_push($paramsQuestionArray, $refId);
+			if($refId != null)
+				array_push($paramsQuestionArray, $refId);
 			array_push($paramsQuestionArray, $type);
-			$resultSet = dbo::executePreparedStatement($query, $paramsQuestionArray, "ss");
+			
+			
+			$resultSet = dbo::executePreparedStatement($query, $paramsQuestionArray, $argsType);
 			$loginUserList = array();
 			if($resultSet != false){
 				while($row = mysqli_fetch_array($resultSet)){
