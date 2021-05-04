@@ -82,10 +82,10 @@
 			$query = "select * from login_detail where ";
 			$argsType = "";
 			if($refId != null){
-				$query .= " ref_id = ? ";
+				$query .= " ref_id = ? and ";
 				$argsType .= "s";
 			}
-			$query .= " and type = ?";
+			$query .= " type = ?";
 			$argsType .= "s";
 			
 			$paramsQuestionArray = array();

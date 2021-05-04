@@ -209,6 +209,7 @@
 				$map['dateOfExpiration'] = "";
 			$map['serviceId'] = $this->serviceId;	
 			$map['policyPrice'] = $this->policyPrice;	
+			$map['policyTax'] = $this->policyTax;
 			$map['status'] = $this->status;	
 			return $map;
 		}
@@ -239,6 +240,8 @@
 			else
 				$map['dateOfExpiration'] = "";
 			$map['policyPrice'] = $this->policyPrice;	
+			$map['policyTax'] = $this->policyTax;	
+			$map['policyTotalAmount'] = $this->policyPrice + $this->policyTax;
 			$map['status'] = $this->status;	
 			return $map;
 		}
