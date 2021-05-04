@@ -2,7 +2,7 @@
 	class Mobile{
 		
 		public function getCompanyList(){
-			$query = "select distinct company from mobile";
+			$query = "select distinct company from mobile where status = 1";
 			$resultSet = dbo::getResultSetForQuery($query);
 			$company=array();
 			if($resultSet != false){
@@ -14,7 +14,7 @@
 		}
 		
 		public function getMobileModel($companyName){
-			$query = "select * from mobile where company = '".$companyName."'";
+			$query = "select * from mobile where company = '".$companyName."' and status = 1";
 			$resultSet = dbo::getResultSetForQuery($query);
 			$company=array();
 			if($resultSet != false){
