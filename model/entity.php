@@ -15,4 +15,6 @@
 	include_once __DIR__."/CompanyDetails.php";
 	include_once __DIR__."/Wallet.php";
 	include_once __DIR__."/FireBaseNotification.php";
+	include_once __DIR__."/SMSSender.php";
+	include_once __DIR__."/Securevault.php";
 ?>
