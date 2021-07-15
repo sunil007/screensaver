@@ -25,7 +25,7 @@ class SMSSender{
 			$smsMessage = $message;
 			$postData = array(
 				'authkey' => $authKey,
-				'mobiles' => $numbers,
+				'mobiles' => '91'.$numbers,
 				'country' => '91',
 				'message' => $smsMessage,
 				'sender' => 'SAISEC',
