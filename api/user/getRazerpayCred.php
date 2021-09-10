@@ -5,6 +5,7 @@
 	include_once __DIR__."/../../model/Token.php";
 	include_once __DIR__."/../../model/Response.php";
 	include_once __DIR__."/../../model/User.php";
+	include_once __DIR__."/../../model/entity.php";
 	
 	$mobile = $_POST['mobile'];
 	$token = $_POST['token'];
