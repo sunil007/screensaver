@@ -180,9 +180,9 @@
 		}
 		
 		public static function getSalesStatus($startDate, $endDate, $salesMan){
-			if($startDate == null || $startDate != "")
+			if($startDate == null || $startDate == "")
 				$startDate = new DateTime(date("Y-m-01 00:00:00"));
-			if($endDate == null || $endDate != "")
+			if($endDate == null || $endDate == "")
 				$endDate = new DateTime(date("Y-m-t 23:59:59"));
 				
 			$myRetailerQuery = "SELECT id, name, business_name, mobile, address_line1, address_line2 FROM `retailer` WHERE manager_id = ".$salesMan." and status = 1";
