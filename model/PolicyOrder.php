@@ -1,6 +1,7 @@
 <?php include_once __DIR__."/dbo.php"; ?>
 <?php include_once __DIR__."/Utility.php"; ?>
 <?php include_once __DIR__."/Policy.php"; ?>
+<?php include_once __DIR__."/Securevault.php"; ?>
 <?php include_once __DIR__."/libs/razorpay/Razorpay.php"; ?>
 <?php use Razorpay\Api\Api; ?>
 <?php
@@ -13,8 +14,15 @@
 		public $receipt;
 		public $orderStatus; //Paid/UnPaid/Refunded
 		
-		public static $key_id = "rzp_test_ysSaMyhyI7W7jt";
-		public static $key_secret = "pGu0dvNQRlpXiSk5icugSXCO";
+		//public static $key_id = "rzp_test_ysSaMyhyI7W7jt";
+		//public static $key_secret = "pGu0dvNQRlpXiSk5icugSXCO";
+		public static getRazerPayCred(){
+			$credMap = Securevault::getByNames(Securevault::$RAZER_PAY_ID.','.Securevault::$RAZER_PAY_SECRET);
+			$map = array();
+			$map['id'] = $credMap[Securevault::$RAZER_PAY_ID]->value;
+			$map['secret'] = $credMap[Securevault::$RAZER_PAY_SECRET]->value;
+			return $map;
+		}
 	
 		public static function getPolicyOrderByGatewayOrderId($orderId){
 			$query = "select * from policy_order where gateway_order_id = ".$orderId.";";
@@ -66,7 +74,9 @@
 		
 		public static function createNewPolicyOrderEntry($policy_id, $policy_amount){
 			$receipt = ((new DateTime())->format('Y-m-d-H-i-s'))."-".$policy_id."-".$policy_amount;
-			$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+			//$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+			$keyMap = PolicyOrder::getRazerPayCred();
+			$api = new Api($keyMap['id'], $keyMap['secret']);
 			$order = $api->order->create(array(
 			  'receipt' => $receipt,
 			  'amount' => $policy_amount*100,
@@ -84,7 +94,9 @@
 		}
 		
 		public static function getPaymentStatusByOrderId($policy_id, $orderid){
-			$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+			//$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+			$keyMap = PolicyOrder::getRazerPayCred();
+			$api = new Api($keyMap['id'], $keyMap['secret']);
 			$payments = $api->order->fetch($orderid)->payments();
 			if(isset($payments["items"]) && sizeof($payments["items"]) > 0 && isset($payments["items"][0]['amount'])){
 				$payedAmount = $payments["items"][0]['amount'];
@@ -115,7 +127,9 @@
 			if($policyOrderObj){
 				$orderid = $policyOrderObj->gatewayOrderId;
 				$policyOrderid = $policyOrderObj->id;
-				$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+				//$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
+				$keyMap = PolicyOrder::getRazerPayCred();
+				$api = new Api($keyMap['id'], $keyMap['secret']);
 				$payments = $api->order->fetch($orderid)->payments();
 				if(isset($payments["items"]) && sizeof($payments["items"]) > 0 && isset($payments["items"][0]['amount'])){
 					$payedId = $payments["items"][0]['id'];
