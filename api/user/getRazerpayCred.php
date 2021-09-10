@@ -14,11 +14,10 @@
 	$user = User::getUserById($userId);
 	if($user){
 		if($user->status == 1){
-			$id = Securevault::getByNames(Securevault::$RAZER_PAY_ID);
-			$secret = Securevault::getByNames(Securevault::$RAZER_PAY_SECRET);
+			$credMap = Securevault::getByNames(Securevault::$RAZER_PAY_ID.','.Securevault::$RAZER_PAY_SECRET);
 			$map = array();
-			$map['id'] = $id;
-			$map['secret'] = $secret;
+			$map['id'] = $credMap[Securevault::$RAZER_PAY_ID]->value;
+			$map['secret'] = $credMap[Securevault::$RAZER_PAY_SECRET]->value;
 			echo Response::getSuccessResponse($map, 200);
 		}else if($user->status == -1){
 			echo Response::getFailureResponse(null, 408);
