@@ -16,7 +16,7 @@
 		
 		//public static $key_id = "rzp_test_ysSaMyhyI7W7jt";
 		//public static $key_secret = "pGu0dvNQRlpXiSk5icugSXCO";
-		public static getRazerPayCred(){
+		public static function getRazerPayCred(){
 			$credMap = Securevault::getByNames(Securevault::$RAZER_PAY_ID.','.Securevault::$RAZER_PAY_SECRET);
 			$map = array();
 			$map['id'] = $credMap[Securevault::$RAZER_PAY_ID]->value;
