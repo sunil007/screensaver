@@ -40,7 +40,7 @@
 		public static $paymentPeriodWIndow = 'PT1440M'; //1 Day
 		public static $validationPeriodWindow = 'PT1440M'; //1 Day
 		public static $activationPeriodWindow = 'PT1440M'; //1 Day
-		public static $policyDuration = 'PT525600M'; //1 Year
+		public static $policyDuration = 'P364D'; //1 Year
 		
 		public static $REJECT_REFUND_PERCENT = "98";
 		public static $LAPS_REFUND_PERCENT = "100";

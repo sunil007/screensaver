@@ -63,7 +63,7 @@
 	$widthArray = array(10,90,20,25,25,25,30);
 	$alighArray = array("C","L","R","C","C","C");
 	$dataArray = array();
-	$description = "AMC ".$policy->mobileCompany." ".$policy->mobileModel." ".$policy->mobileIMEI ."\n"."Status : ".$policy->status;
+	$description = "AMC ".$policy->mobileCompany." ".$policy->mobileModel." ".$policy->mobileIMEI ;//."\n"."Status : ".$policy->status;
 	if($policy->status == 'Active')
 		$description .= "\nExpires On : ". $policy->dateOfExpiration->format('d-M-Y');
 	$dataRow = array(
