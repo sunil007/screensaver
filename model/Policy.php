@@ -345,6 +345,18 @@
 			dbo::updateRecord($updateQuery);
 		}
 		
+		public static function refundNotInitiatedPolicy($policyId){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Refund Not Initiated' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($updateQuery);
+		}
+		
+		public static function failRefundPolicy($policyId){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Refund Failed' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($updateQuery);
+		}
+		
 		public static function underReviewPolicy($policyId){
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
 			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Under-Review' WHERE `policy`.`id` = '".$policyId."'";

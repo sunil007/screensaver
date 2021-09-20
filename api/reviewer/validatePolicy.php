@@ -37,8 +37,9 @@
 						}
 						echo Response::getSuccessResponse(null, 200);
 					}else{
-						Policy::lapsPolicy($_POST['policyId']);
+						Policy::refundNotInitiatedPolicy($_POST['policyId']);
 						PolicyOrder::initiateRefund($_POST['policyId'], Policy::$LAPS_REFUND_PERCENT);
+						Policy::lapsPolicy($_POST['policyId']);
 						echo Response::getFailureResponse(null, 417);
 					}
 				}else{

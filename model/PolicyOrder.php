@@ -137,7 +137,13 @@
 					if(is_numeric($payedAmount) && is_numeric($percentRefund) && $percentRefund <= 100){
 						$refundAmount = floor(($payedAmount*$percentRefund)/100);
 						$refund = $api->refund->create(array('payment_id' => $payedId, 'amount'=>$refundAmount));
-						PolicyOrder::updatePolicyOrderStatusRefunded($policyOrderid, 'Refunded');
+						try{
+							PolicyOrder::updatePolicyOrderStatusRefunded($policyOrderid, 'Refunded');
+							return false;
+						}catch(Exception $e){
+							Policy::failRefundPolicy($_POST['policyId']);
+							return false;
+						}
 						return true;
 					}
 				}else{
