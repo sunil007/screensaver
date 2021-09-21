@@ -5,7 +5,7 @@ class SMSSender{
 	public static $otpRouteName = "SMS_OTP_ROUTE";
 	
 	public static $dltTemplateMap = array(
-		"SEND_OTP_TEMPLATE" => "1305162338805707833"
+		"SEND_OTP_TEMPLATE" => "1307162411431966026"
 	);
 	
 	public static function sendOTP($number, $otp){
@@ -18,18 +18,19 @@ class SMSSender{
 	}
 	
 	public static function sendMsg($numbers, $msg, $dltTemplateName, $authKey, $route){
-		//echo $route;
+		//echo $msg;
+		//exit(0);
 		try{
 			$message = urlencode($msg);
 			$smsMessage = $message;
 			$postData = array(
 				'authkey' => $authKey,
-				'mobiles' => $numbers,
+				'mobiles' => '91'.$numbers,
 				'country' => '91',
 				'message' => $smsMessage,
 				'sender' => 'SAISEC',
 				'route' => 4,
-				'DLT_TE_ID' => SMSSender::getDTLTemplateIdFromName($dltTemplateName)
+				'DLT_TE_ID' => "1307162411431966026" //SMSSender::getDTLTemplateIdFromName($dltTemplateName)
 			);
 			
 			$url="http://api.msg91.com/api/sendhttp.php";

@@ -6,6 +6,9 @@
 		public $name;
 		public $value;
 		
+		public static $RAZER_PAY_ID = "RAZER_PAY_ID";
+		public static $RAZER_PAY_SECRET = "RAZER_PAY_SECRET";
+		
 		public function populateByRow($row){
 			$this->id = $row['id'];
 			$this->name = $row['name'];

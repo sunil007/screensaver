@@ -40,7 +40,7 @@
 		public static $paymentPeriodWIndow = 'PT1440M'; //1 Day
 		public static $validationPeriodWindow = 'PT1440M'; //1 Day
 		public static $activationPeriodWindow = 'PT1440M'; //1 Day
-		public static $policyDuration = 'PT525600M'; //1 Year
+		public static $policyDuration = 'P364D'; //1 Year
 		
 		public static $REJECT_REFUND_PERCENT = "98";
 		public static $LAPS_REFUND_PERCENT = "100";
@@ -342,6 +342,18 @@
 		public static function lapsPolicy($policyId){
 			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
 			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Laps' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($updateQuery);
+		}
+		
+		public static function refundNotInitiatedPolicy($policyId){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Refund Not Initiated' WHERE `policy`.`id` = '".$policyId."'";
+			dbo::updateRecord($updateQuery);
+		}
+		
+		public static function failRefundPolicy($policyId){
+			$currentTimeStamp = (new DateTime())->format('Y-m-d H:i:s');
+			$updateQuery = "UPDATE `policy` SET `dateOfValidation` = '".$currentTimeStamp."', `status` = 'Refund Failed' WHERE `policy`.`id` = '".$policyId."'";
 			dbo::updateRecord($updateQuery);
 		}
 		
