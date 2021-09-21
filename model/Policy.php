@@ -96,7 +96,7 @@
 		}
 		
 		public static function getAllPolicyForValidation($reviewerid){
-			$query = "select * from policy where status = 'Under-Review';";
+			$query = "select * from policy where status = 'Under-Review' or status = 'Refund Not Initiated';";
 			$resultSet = dbo::getResultSetForQuery($query);
 			$policies=array();
 			if($resultSet != false){
