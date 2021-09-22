@@ -30,9 +30,10 @@
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Activation","Your AMC number ".$userPolicy->id." is activated.");
 						}
 						else if($_POST['action'] == 'REJECT'){
-							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
+							Policy::refundNotInitiatedPolicy($_POST['policyId']);
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Rejection","Your AMC number ".$userPolicy->id." is rejected and you amount refund is initiated.");
 							PolicyOrder::initiateRefund($_POST['policyId'], Policy::$REJECT_REFUND_PERCENT);
+							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
 							/*TODO : Refund Initiation*/
 						}
 						echo Response::getSuccessResponse(null, 200);
