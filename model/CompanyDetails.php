@@ -78,6 +78,8 @@
         "Mobile Accessories - Not Covered",
         "Claims Limit - 1 claim during 12 month service period"
         );
+		
+		public static $serviceDetails = array("STEP 1 - Visit your nearest OneSecure Service Center or call us at +91 90-991-991-51.","STEP 2 - We will completely inspect your mobile to determine damages to your screen and then, if approved we will initiate service.","STEP 3 - Once repair is done, you can collect your mobile from service center.");
 	}
 ?>
 
