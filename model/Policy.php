@@ -296,8 +296,11 @@
 				}
 			}
 			
-			$maxPolicyid = Policy::getMaxId();
-			$newId = $maxPolicyid + 1;
+		        $currentDate =  (new DateTime())->format('Ymd'); //current date
+			$maxPolicyid = (int)substr(Policy::getMaxId(),8);// extracting max id
+			$newId = $maxPolicyid + 1; //adding 1
+			$newId = sprintf("%06d", $newId);// adding leading zeros
+			$newId = $currentDate.$newId;
 			$query = "
 				INSERT INTO `policy` 
 				(`id`, `userId`, `mobileIMEI`, `mobileModel`, `mobileCompany`, `mobileCurrentPrice`, `mobilePhoto1`, `mobilePhoto2`, `mobileVideo`, `retailerId`, `approved_by`, `dateOfRegistration`, `dateOfActivation`, `dateOfExpiration`, `serviceId`, `policyPrice`, `policyTax`, `status`) 
