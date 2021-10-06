@@ -17,6 +17,22 @@ Author URL: http://w3layouts.com
 	  <link rel="stylesheet" href="assets/css/style-liberty.css">
     <link rel="stylesheet" href="assets/css/style-starter.css">
     <link rel="stylesheet" href="assets/css/fontawesome-free-5.15.3-web/css/all.css">
+    <style>
+      input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+#priceOutput{
+  display:none;
+}
+    </style>
   </head>
   <body>
 <!-- header -->
@@ -34,7 +50,7 @@ Author URL: http://w3layouts.com
               aria-label="Toggle navigation">
               <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
               <span class="navbar-toggler-icon fa icon-close fa-times"></span>
-              </span>
+
           </button>
 
           <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
@@ -53,7 +69,7 @@ Author URL: http://w3layouts.com
                       <a class="nav-link" href="contact.html">Contact</a>
                   </li>
                   <li class="nav-item ml-3 mr-2">
-                      <a href="#download" class="btn btn-primary d-none d-lg-block btn-style">Download</a></li>
+                      <a href="https://play.google.com/store/apps/details?id=com.onesecurepvt.onesecureapp" class="btn btn-primary d-none d-lg-block btn-style">Download</a></li>
               </ul>
           </div>
           <!-- toggle switch for light and dark theme -->
@@ -91,6 +107,7 @@ Author URL: http://w3layouts.com
             <div class="heading text-center mx-auto">
                 <h5 class="title-small text-center mb-lg-2">What we offer</h5>
                 <h3 class="title-big mb-md-5 mb-4">Our Pricing plans</h3>
+
             </div>
             <div class="pricing-sec-7">
                 <!-- pricing grid 1 -->
@@ -139,8 +156,9 @@ Author URL: http://w3layouts.com
                     <div class="w3l-pricing-7">
                     <div class="w3l-pricing-7-top">
 
-							<p class="para">For Mobiles with price more than Rs 15000</p>
-                            <h4>1 % of Mobile Price</h4>
+							<p class="para">Annual Maintainance Plans starting from</p>
+                            <h4><label>Rs</label>299<span>/year</span></h4>
+                            		<p style = "font-size: 10px;">*GST Not Inclusive</p>
                         </div>
                     </div>
                 </div>
@@ -148,11 +166,21 @@ Author URL: http://w3layouts.com
                     <div class="w3l-pricing-7">
                         <div class="w3l-pricing-7-top">
 
-                            <h6>Standard Package</h6>
-                            <p class="para">For Mobiles with price less than Rs 15000</p>
-                            <h4><label>Rs</label>149<span>/year</span></h4>
+                            <h6>Standard Plans</h6>
+                            <div id="priceInput">
+                              <h6><p class="para">Explore Plans for your device </p></h6>
+                              <br>
+                            <input id="price" type="number" class="form-control" placeholder="Device Price">
+                              <br>
+                            <button id="pricebtn" onclick="viewPlans()" type="button" class="btn btn-light">View Plans</button>
+                                <br>
+                            </div>
+                            <div id="priceOutput">
+
+                            </div>
+
 							<br>
-							<p style = "color: #F3F3F3;font-size: 10px;">*GST Not Inclusive</p>
+
                         </div>
 
 
@@ -161,7 +189,7 @@ Author URL: http://w3layouts.com
                 </div>
 
                 <!-- //pricing grid 2 -->
-                <!-- pricing grid 3 --> 
+                <!-- pricing grid 3 -->
                 <div class="pricing-gd-left pric-7-2">
                     <div class="w3l-pricing-7">
 
@@ -257,7 +285,7 @@ Author URL: http://w3layouts.com
                     <li>STEP 3 - After service approval, we will repair your mobile screen within 7 days.</li>
                     <li>STEP 4 - Once repair is done, you can collect your mobile from service center.</li>
                 </ol>
-              
+
             </div>
             <div class="col-lg-1 feature-grid-right">
 
@@ -330,7 +358,7 @@ Author URL: http://w3layouts.com
   </section> -->
   <!-- //forms -->
   <!-- footer-28 block -->
- 
+
 <section class="app-footer">
   <footer class="footer-28">
     <div class="footer-bg-layer">
@@ -407,6 +435,9 @@ Author URL: http://w3layouts.com
   <button onclick="topFunction()" id="movetop" title="Go to top">
     &#10548;
   </button>
+
+
+
   <script>
     // When the user scrolls down 20px from the top of the document, show the button
     window.onscroll = function () {
@@ -432,6 +463,58 @@ Author URL: http://w3layouts.com
   <!-- //footer-28 block -->
 
   <!-- all js scripts and files here -->
+
+  <script type="text/javascript">
+   function edit(){
+     var x = document.getElementById("priceOutput");
+     var y = document.getElementById("priceInput");
+
+     if (x.style.display === "none") {
+       x.style.display = "block";
+          y.style.display = "none";
+     } else {
+       x.style.display = "none";
+       y.style.display = "block";
+     }
+   }
+
+    function viewPlans(){
+      var price = document.getElementById("price").value;
+      if(price)
+      {
+      var x = document.getElementById("priceInput");
+      var y = document.getElementById("priceOutput");
+     var z = 299;
+     if(price > 5000)
+       z = 299;
+     if(price > 10000)
+       z = 399;
+     if(price > 15000)
+      z = 449;
+    if(price > 20000)
+        z = 499;
+    if(price > 25000)
+       z = 549;
+
+    y.innerHTML = "<p class=\"para\">Plan for your device <button id=\"edit\" onclick=\"edit()\" type=\"button\" class=\"btn btn-primary\" style=\"padding:0px 6px;\"><i class=\"fas fa-pencil-alt\"></i></button></p><p class=\"para\">Device Price : Rs "+price+"<h4><label>Rs</label>"+z+"<span>/year</span></h4>";
+
+// <p class="para">Device Price : 16999</p>
+// <h4><label>Rs</label>299<span>/year</span></h4>
+var y = document.getElementById("priceOutput");
+var x = document.getElementById("priceInput");
+
+if (x.style.display === "none") {
+  x.style.display = "block";
+     y.style.display = "none";
+} else {
+  x.style.display = "none";
+  y.style.display = "block";
+}
+
+}
+    //  alert(price);
+    }
+  </script>
 
   <script src="assets/js/theme-change.js"></script><!-- theme switch js (light and dark)-->
 
