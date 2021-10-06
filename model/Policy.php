@@ -257,7 +257,9 @@
 			//echo $premium;
 			if($premium < 149)
 				$premium = 149;*/
-			$premium = 399;
+			$premium = 299;
+			if($mobileCurrentPrice > 5000) //5k - 10k
+				$premium = 299;
 			if($mobileCurrentPrice > 10000) //10k - 15k
 				$premium = 399;
 			if($mobileCurrentPrice > 15000) //15k - 20k
