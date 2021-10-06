@@ -32,15 +32,17 @@
 						else if($_POST['action'] == 'REJECT'){
 							Policy::refundNotInitiatedPolicy($_POST['policyId']);
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Rejection","Your AMC number ".$userPolicy->id." is rejected and you amount refund is initiated.");
-							PolicyOrder::initiateRefund($_POST['policyId'], Policy::$REJECT_REFUND_PERCENT);
-							Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
+							$isrefunded = PolicyOrder::initiateRefund($_POST['policyId'], Policy::$REJECT_REFUND_PERCENT);
+							if($isrefunded)
+								Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
 							/*TODO : Refund Initiation*/
 						}
 						echo Response::getSuccessResponse(null, 200);
 					}else{
 						Policy::refundNotInitiatedPolicy($_POST['policyId']);
-						PolicyOrder::initiateRefund($_POST['policyId'], Policy::$LAPS_REFUND_PERCENT);
-						Policy::lapsPolicy($_POST['policyId']);
+						$isrefunded = PolicyOrder::initiateRefund($_POST['policyId'], Policy::$LAPS_REFUND_PERCENT);
+						if($isrefunded)
+							Policy::lapsPolicy($_POST['policyId']);
 						echo Response::getFailureResponse(null, 417);
 					}
 				}else{

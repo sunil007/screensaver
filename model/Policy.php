@@ -253,10 +253,19 @@
 		}
 		
 		public static function calculatePolicyPrice($mobileCurrentPrice){
-			$premium = ceil($mobileCurrentPrice/100);
+			/*$premium = ceil($mobileCurrentPrice/100);
 			//echo $premium;
 			if($premium < 149)
-				$premium = 149;
+				$premium = 149;*/
+			$premium = 399;
+			if($mobileCurrentPrice > 10000) //10k - 15k
+				$premium = 399;
+			if($mobileCurrentPrice > 15000) //15k - 20k
+				$premium = 449;
+			if($mobileCurrentPrice > 20000) //20k - 25k
+				$premium = 499;
+			if($mobileCurrentPrice > 25000) //25k - ANY
+				$premium = 549;
 			return $premium;
 		}
 		
@@ -265,7 +274,8 @@
 		}
 		
 		public static function calculateRetailerCommission($policyPrice){
-			return floor($policyPrice*0.15);
+			//return floor($policyPrice*0.15);
+			return 30;
 		}
 		
 		public static function getMaxId(){

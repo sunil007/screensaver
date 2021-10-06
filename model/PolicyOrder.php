@@ -140,7 +140,7 @@
 						try{
 							PolicyOrder::updatePolicyOrderStatusRefunded($policyOrderid, 'Refunded');
 							return false;
-						}catch(Exception $e){
+						}catch(Error $e){
 							Policy::failRefundPolicy($_POST['policyId']);
 							return false;
 						}
