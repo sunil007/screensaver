@@ -266,8 +266,10 @@
 				$premium = 449;
 			if($mobileCurrentPrice > 20000) //20k - 25k
 				$premium = 499;
-			if($mobileCurrentPrice > 25000) //25k - ANY
+			if($mobileCurrentPrice > 25000) //25k - 30k
 				$premium = 549;
+			if($mobileCurrentPrice > 30000) //30- ANY
+				$premium = 599;
 			return $premium;
 		}
 		
