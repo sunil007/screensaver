@@ -30,6 +30,7 @@
        "3.4	The Customer acknowledges that OneSecure has the sole right to vary the features/benefits under the Annual Maintenance Plan(s) or the Annual Maintenance Plans or the amount or rate of the Plan Fee or part thereof, from time to time.",
       	"3.5	The Customer acknowledges that OneSecure may engage third parties including Service Partners for the fulfillment of the services and the Customer hereby consents to OneSecure disclosing, to the extent relevant, the Customer’s Personal Information and/or details of Annual Maintenance Plan(s) availed by the Customer to inter alia (a) our affiliates Service Partners (b) to our suppliers, vendors, for the purposes of servicing the Customer.",
         "3.6	The Customer hereby consents to OneSecure identifying any service providers and/or products that may be of some interest to the Customer.",
+	"3.7    Customer can only claim for service after 15 Days of Activation of Annual Maintainance Plan.",
         "4.	TOTAL FEES/CHARGES",
        "4.1	OneSecure shall charge the One Time Plan Fee from the Customer for availing of the Annual Maintenance Plan(s) for the duration of the respective Plan. The Plan Fee shall be payable in advance and the Customer have to make a one-time payment of the Plan Fee for the applicable period including applicable taxes and levies.",
         "4.2	Activation of the Annual Maintenance Plan(s) is subject to realization/ receipt of the Plan Fee.",
