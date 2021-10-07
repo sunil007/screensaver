@@ -495,6 +495,8 @@ input[type=number] {
         z = 499;
     if(price > 25000)
        z = 549;
+    if(price > 30000)
+       z = 599;
 
     y.innerHTML = "<p class=\"para\">Plan for your device <button id=\"edit\" onclick=\"edit()\" type=\"button\" class=\"btn btn-primary\" style=\"padding:0px 6px;\"><i class=\"fas fa-pencil-alt\"></i></button></p><p class=\"para\">Device Price : Rs "+price+"<h4><label>Rs</label>"+z+"<span>/year</span></h4>";
 
