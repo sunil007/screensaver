@@ -15,7 +15,7 @@
 	
 	
 	$pdf = new PDF();
-	$pdf->setDefaults("Invoice #".$policyOrder->id);
+	$pdf->setDefaults("Invoice #".$policyOrder->no);
 	/*output the result*/
 
 	/*set font to arial, bold, 14pt*/
@@ -24,7 +24,7 @@
 	/*Cell(width , height , text , border , end line , [align] )*/
 
 	$pdf->Cell(71 ,10,'',0,0);
-	$pdf->Cell(59 ,5,'Invoice #'.$policyOrder->id,0,0);
+	$pdf->Cell(59 ,5,'Invoice #'.$policyOrder->no,0,0);
 	$pdf->Cell(59 ,10,'',0,1);
 
 	$pdf->SetFont('Arial','B',15);
@@ -82,6 +82,6 @@
 		$pdf->drawTextLine($text, false);
 	}
 
-	$pdf->Output('I','Invoice '.$policyOrder->id.'.pdf');
+	$pdf->Output('I','Invoice '.$policyOrder->no.'.pdf');
 		
 ?>
