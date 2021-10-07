@@ -26,7 +26,7 @@
 							
 							/*Adding Commision to Retailer*/
 							$retailerComission = Policy::calculateRetailerCommission($userPolicy->policyPrice);
-							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "Policy ".$userPolicy->id." Commission");
+							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "AMC ".$userPolicy->id." Commission");
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Activation","Your AMC number ".$userPolicy->id." is activated.");
 						}
 						else if($_POST['action'] == 'REJECT'){
