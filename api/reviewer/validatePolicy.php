@@ -26,13 +26,13 @@
 							
 							/*Adding Commision to Retailer*/
 							$retailerComission = Policy::calculateRetailerCommission($userPolicy->policyPrice);
-							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "Policy ".$userPolicy->id." Commission");
+							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "AMC ".$userPolicy->id." Commission");
 							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Activation","Your AMC number ".$userPolicy->id." is activated.");
 						}
 						else if($_POST['action'] == 'REJECT'){
 							Policy::refundNotInitiatedPolicy($_POST['policyId']);
-							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Rejection","Your AMC number ".$userPolicy->id." is rejected and you amount refund is initiated.");
 							$isrefunded = PolicyOrder::initiateRefund($_POST['policyId'], Policy::$REJECT_REFUND_PERCENT);
+							FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Rejection","Your AMC number ".$userPolicy->id." is rejected and your amount refund is initiated.");
 							if($isrefunded)
 								Policy::rejectPolicy($_POST['policyId'], $reviewer->id);
 							/*TODO : Refund Initiation*/
@@ -41,6 +41,7 @@
 					}else{
 						Policy::refundNotInitiatedPolicy($_POST['policyId']);
 						$isrefunded = PolicyOrder::initiateRefund($_POST['policyId'], Policy::$LAPS_REFUND_PERCENT);
+						FireBaseNotification::SendNotificationToUser($userPolicy->userId, "USER", "AMC Status - Lapsed","Your AMC number ".$userPolicy->id." is not activated and your amount refund is initiated.");
 						if($isrefunded)
 							Policy::lapsPolicy($_POST['policyId']);
 						echo Response::getFailureResponse(null, 417);
