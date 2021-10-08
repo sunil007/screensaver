@@ -23,7 +23,7 @@
 					if($policyRegistration > $currentTime){
 						if($_POST['action'] == 'ACTIVATE'){
 							Policy::activatePolicy($_POST['policyId'], $reviewer->id);
-							
+							PolicyOrder::updateInvoiceNo($_POST['policyId']); //Added Invoice Number
 							/*Adding Commision to Retailer*/
 							$retailerComission = Policy::calculateRetailerCommission($userPolicy->policyPrice);
 							Wallet::updateBalance($userPolicy->retailerId, 'RETAILER', $retailerComission, "AMC ".$userPolicy->id." Commission");

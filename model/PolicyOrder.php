@@ -12,6 +12,7 @@
 		public $orderCreated;
 		public $gatewayOrderId;
 		public $receipt;
+		public $no;
 		public $orderStatus; //Paid/UnPaid/Refunded
 		
 		//public static $key_id = "rzp_test_ysSaMyhyI7W7jt";
@@ -41,6 +42,7 @@
 			$this->gatewayOrderId = $row['gateway_order_id'];
 			$this->orderStatus = $row['order_status'];
 			$this->receipt = $row['receipt'];
+			$this->no = $row['no'];
 			if($row['order_created'] != null && $row['order_created'] != "")
 				$this->orderCreated = new DateTime($row['order_created']);
 			else
@@ -55,6 +57,7 @@
 			$map['gateway_order_id'] = $this->gatewayOrderId;
 			$map['order_status'] = $this->orderStatus;
 			$map['receipt'] = $this->receipt;
+			 $map['no'] = $this->no;
 			if($this->orderCreated != null)
 				$map['order_created'] = $this->orderCreated->format('Y-m-d H:i:s');
 			else
@@ -154,6 +157,31 @@
 			}
 		}
 		
+			public static function updateInvoiceNo($policyId){
+			$maxInvoiceNo = PolicyOrder::getMaxNo();
+   				 //  echo($maxInvoiceNo);
+			$newInvoiceNo = $maxInvoiceNo + 1;
+
+			PolicyOrder::updatePolicyOrderInvoiceNo($policyId,$newInvoiceNo);
+		}
+
+		public static function getMaxNo(){
+			$maxNoQuery = "select max(no) as no from policy_order";
+			$maxNoResultSet = dbo::getResultSetForQuery($maxNoQuery);
+			if($maxNoResultSet){
+				$maxRow = mysqli_fetch_array($maxNoResultSet);
+				$maxNo = $maxRow['no'];
+				return $maxNo;
+			}
+			return false;
+		}
+
+		public static function updatePolicyOrderInvoiceNo($policyId,$invoiceNo){
+			$query = "UPDATE `policy_order` SET `no` = '".$invoiceNo."' WHERE `policy_id` = ".$policyId." and `order_status` = 'Paid';";
+
+			dbo::insertRecord($query);
+			//return $newId;
+		}
 		public static function updatePolicyGatewayOrderId($id, $gateway_order_id){
 			$query = "UPDATE `policy_order` SET `gateway_order_id` = '".$gateway_order_id."' WHERE `id` = ".$id.";";
 			dbo::insertRecord($query);
