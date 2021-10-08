@@ -3,7 +3,7 @@
 		
 		public static $name = "Sai Secure Solutions Pvt. Ltd.";
 		public static $addressLine1 = "Flat No. 802, Lake Castle Nr. Jainam Resid.,";
-		public static $addressLine2 = " Pal Vilage, Surat, Gujarat 394009";
+		public static $addressLine2 = "Pal Vilage, Surat, Gujarat 394009";
 		public static $gst = "24ABFCs9698K1ZG";
 		
 		public static $invoiceTerms = array("1. AMC : Annual Maintnance Charges","2. GST is 18% of AMC price");
