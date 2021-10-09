@@ -5,7 +5,7 @@
 		public static $addressLine1 = "802, Lake Castle Nr. Jainam Resid.,";
 		public static $addressLine2 = "Pal, Surat, Gujarat - 394009";
 		public static $gst = "24ABFCS9698K1ZG";
-		
+		public static $hsn = "9987";
 		public static $invoiceTerms = array("1. AMC : Annual Maintnance Charges","2. GST is 18% of AMC price");
 		// public static $compantTerms = array("1. AMC : Annual Maintnance Charges","2. GST is 18% of AMC price","3. Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes Annual Maintnance Changes");
 		
