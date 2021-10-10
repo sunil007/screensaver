@@ -7,15 +7,15 @@ class DBReadConfig{
 	public $password;
 	
 	function __construct(){
-		//$this->user = "root";
-		//$this->host = "localhost";
-		//$this->db = "onsecure";
-		//$this->password = "";
-		
-		$this->user = "u270279521_onesecureapi";
+		$this->user = "u270279521_onesecuretest";
 		$this->host = "localhost";
-		$this->db = "u270279521_onsecure";
+		$this->db = "u270279521_test";
 		$this->password = "Ronak123#";
+		
+		//$this->user = "u270279521_onesecureapi";
+		//$this->host = "localhost";
+		//$this->db = "u270279521_onsecure";
+		//$this->password = "Ronak123#";
     }
 }
 
@@ -26,15 +26,15 @@ class DBConfig{
 	public $password;
 	
 	function __construct(){
-		//$this->user = "root";
-		//$this->host = "localhost";
-		//$this->db = "onsecure";
-		//$this->password = "";
-		
-		$this->user = "u270279521_onesecureapi";
+		$this->user = "u270279521_onesecuretest";
 		$this->host = "localhost";
-		$this->db = "u270279521_onsecure";
+		$this->db = "u270279521_test";
 		$this->password = "Ronak123#";
+		
+		//$this->user = "u270279521_onesecureapi";
+		//$this->host = "localhost";
+		//$this->db = "u270279521_onsecure";
+		//$this->password = "Ronak123#";
     }
 }
 
