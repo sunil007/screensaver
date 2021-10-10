@@ -75,7 +75,7 @@
 			return false;
 		}
 		
-		public static function createNewPolicyOrderEntry($policy_id, $policy_amount){
+		public static function createNewPolicyOrderEntry($policy_id, $policy_amount, $orderByType, $orderByTypeId){
 			$receipt = ((new DateTime())->format('Y-m-d-H-i-s'))."-".$policy_id."-".$policy_amount;
 			//$api = new Api(PolicyOrder::$key_id, PolicyOrder::$key_secret);
 			$keyMap = PolicyOrder::getRazerPayCred();
@@ -91,7 +91,7 @@
 			$newId = $maxPolicyOrderid + 1;
 			$currentTimeString = (new DateTime())->format('Y-m-d H:i:s');
 			$query = "
-				INSERT INTO `policy_order` (`id`, `policy_id`, `order_created`, `gateway_order_id`, `receipt`, `order_status`) VALUES (NULL, '".$policy_id."', '".$currentTimeString."', '".$orderId."', '".$receipt."', 'UnPaid');";
+				INSERT INTO `policy_order` (`id`, `policy_id`, `order_created`, `gateway_order_id`, `receipt`, `order_status`, `paid_by`, `paid_by_id`) VALUES (NULL, '".$policy_id."', '".$currentTimeString."', '".$orderId."', '".$receipt."', 'UnPaid', '".$orderByType."', '".$orderByTypeId."');";
 			dbo::insertRecord($query);
 			return $orderId;
 		}
@@ -101,12 +101,14 @@
 			$keyMap = PolicyOrder::getRazerPayCred();
 			$api = new Api($keyMap['id'], $keyMap['secret']);
 			$payments = $api->order->fetch($orderid)->payments();
+			//var_dump($payments);
 			if(isset($payments["items"]) && sizeof($payments["items"]) > 0 && isset($payments["items"][0]['amount'])){
 				$payedAmount = $payments["items"][0]['amount'];
+				$payedId = $payments["items"][0]['id'];
 				$policy = Policy::getPolicyById($policy_id);
 				if($policy->policyTotalAmount*100 == $payedAmount){
 					Policy::underReviewPolicy($policy_id);
-					PolicyOrder::updatePolicyOrderStatusByOrderId($orderid, "Paid");
+					PolicyOrder::updatePolicyOrderStatusByOrderId($orderid, "Paid", $payedId);
 					return true;
 				}
 			}
@@ -200,8 +202,8 @@
 			//return $newId;
 		}
 		
-		public static function updatePolicyOrderStatusByOrderId($orderid, $status){
-			$query = "UPDATE `policy_order` SET `order_status` = '".$status."' WHERE `gateway_order_id` = '".$orderid."';";
+		public static function updatePolicyOrderStatusByOrderId($orderid, $status, $payedGatewayId){
+			$query = "UPDATE `policy_order` SET `order_status` = '".$status."', `gateway_payment_id` = '".$payedGatewayId."' WHERE `gateway_order_id` = '".$orderid."';";
 			dbo::insertRecord($query);
 			//return $newId;
 		}

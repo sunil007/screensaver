@@ -1,20 +1,23 @@
 <?php
 	include_once __DIR__."/../config/timezone.php";
-	include_once __DIR__."/../config/token_security.php";
+	include_once __DIR__."/../config/retailer_security.php";
 	include_once __DIR__."/../../model/entity.php";
 	include_once __DIR__."/../../model/PolicyOrder.php";
 	
 	$mobile = $_POST['mobile'];
 	$token = $_POST['token'];
 	$userId = Token::getTokenUserId($token, $mobile);
-	$user = User::getUserById($userId);
+	$retailer = Retailer::getRetailerById($userId);	
+	if(!Retailer::isRetailerValid($retailer)){
+		echo Response::getFailureResponse(null, 420);exit(0);
+	}
 	
 	if(!isset($_POST['policyId'])){
 		echo Response::getFailureResponse(null, 409);exit(0);
 	}
 	
-	if($user){
-		if($user->status == 1){
+	if($retailer){
+		if($retailer->status == 1){
 			
 			$policy = Policy::getPolicyById($_POST['policyId']);
 			if($policy){
@@ -29,7 +32,7 @@
 						echo Response::getFailureResponse(null, 423);
 					}else{
 						/*API GATWAY*/
-						$gatewayOrderid = PolicyOrder::createNewPolicyOrderEntry($policy->id, $policy->policyTotalAmount, $user->type, $user->id);
+						$gatewayOrderid = PolicyOrder::createNewPolicyOrderEntry($policy->id, $policy->policyTotalAmount, $retailer->type, $retailer->id);
 						$retObj = array();
 						$retObj['orderId'] = $gatewayOrderid;
 						echo Response::getSuccessResponse($retObj, 200);
@@ -46,7 +49,7 @@
 			echo Response::getFailureResponse(null, 408);
 		}
 	}else{
-		echo Response::getFailureResponse(null, 407);
+		echo Response::getFailureResponse(null, 420);
 	}
 	
 ?>
