@@ -11,7 +11,7 @@
 	$token = $_POST['token'];
 	$userId = Token::getTokenUserId($token, $mobile);
 
-	$user = Retailer::getUserById($userId);
+	$user = Retailer::getRetailerById($userId);
 	if($user){
 		if($user->status == 1){
 			$credMap = Securevault::getByNames(Securevault::$RAZER_PAY_ID.','.Securevault::$RAZER_PAY_SECRET);
