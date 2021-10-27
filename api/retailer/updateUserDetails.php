@@ -26,11 +26,11 @@
 		$userId = $_POST['userId'];
 		$userName = $_POST['userName'];
 		$userAddressLine1 = $_POST['userAddressLine1'];
-		$userAddressLine2 = $_POST['userAddressLine2'];
+		$userAddressLine2 = isset($_POST['userAddressLine2'])?$_POST['userAddressLine2']:"";
 		$userCity = $_POST['userCity'];
 		$userState = $_POST['userState'];
 		$userPincode = $_POST['userPincode'];
-		$userAadhar = $_POST['userAadhar'];
+		$userAadhar = isset($_POST['userAadhar'])?$_POST['userAadhar']:"";
 		$mobile = $_POST['mobile'];	
 		$userMobileNumber = $_POST['userMobile'];
 		$email = isset($_POST['email'])?$_POST['email']:"";
