@@ -303,7 +303,7 @@
 			$premiumTax = Policy::calculatePolicyTax($premium);
 			$userPolicies = Policy::getPolicyByUserid($userId);
 			foreach($userPolicies as $userPoliciy){
-				if($userPoliciy->status != "Expired" && $userPoliciy->status != "Laps" && $userPoliciy->status != "Clamed"){
+				if($userPoliciy->status != "Expired" && $userPoliciy->status != "Laps" && $userPoliciy->status != "Clamed" && $userPoliciy->status != "InActive" && $userPoliciy->status != "Rejected"){
 					if($userPoliciy->mobileIMEI == $mobileIMEI)
 						return false;
 				}
