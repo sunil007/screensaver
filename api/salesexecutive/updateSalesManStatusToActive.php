@@ -19,7 +19,14 @@
 			exit(0);
 		}
 		SalesMan::updateSalesManStatus($userObject->id, '1');
-		echo Response::getSuccessResponse(null, 200);
+		$loginDetail = Login::getLoginByRefIdAndType($userObject->id, $userObject->type);
+		$responsemap = array();
+		if($loginDetail && sizeof($loginDetail) > 0){
+			$responsemap['loginid'] = $loginDetail[0]->userid;
+			$responsemap['password'] = $loginDetail[0]->password;
+		}
+		
+		echo Response::getSuccessResponse($responsemap, 200);
 	}else{
 		echo Response::getFailureResponse(null, 409);
 	}
