@@ -11,7 +11,7 @@
 		echo Response::getFailureResponse(null, 422);exit(0);
 	}
 	
-	if(isset($_POST['company']) && is_numeric($_POST['model']) && isset($_POST['price'])){
+	if(isset($_POST['company']) && isset($_POST['model']) && isset($_POST['price']) && is_numeric($_POST['price'])){
 		
 		$company = $_POST['company'];	
 		$model = $_POST['model'];
