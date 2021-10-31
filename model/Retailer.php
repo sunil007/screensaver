@@ -202,7 +202,7 @@
 			dbo::insertRecord($query);
 		}
 		
-		public static function updateRetailerBankDetails($userid, $acno, $ifsc){
+		public static function updateRetailerBankDetails($userid, $acno, $ifsc, $acname, $bankname, $actype){
 			$query = "UPDATE `retailer` SET ";
 			$query .= "`acno` = '".$acno."',  `ifsc` = '".$ifsc."' ,  `acname` = '".$acname."' ,  `bankname` = '".$bankname."' ,  `actype` = '".$actype."'";
 			$query .= " Where id=".$userid;
