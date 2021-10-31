@@ -22,6 +22,9 @@
 		public $statusName;
 		public $acno;
 		public $ifsc;
+		public $acname;
+		public $bankname;
+		public $actype;
 		
 		public function populateByRow($row){
 			$this->id = $row['id'];
@@ -48,7 +51,9 @@
 				$this->statusName = "InActive";
 			$this->acno = $row['acno'];
 			$this->ifsc = $row['ifsc'];
-			
+			$this->acname = $row['acname'];
+			$this->bankname = $row['bankname'];
+			$this->actype = $row['actype'];
 		}
 		
 		public function toMapObject(){
@@ -72,6 +77,9 @@
 			$map['statusName'] = $this->statusName;
 			$map['acno'] = $this->acno;
 			$map['ifsc'] = $this->ifsc;
+		        $map['acname'] = $this->acname;
+			$map['bankname'] = $this->bankname;
+			$map['actype'] = $this->actype;
 			return $map;
 		}
 		
@@ -196,8 +204,8 @@
 		
 		public static function updateRetailerBankDetails($userid, $acno, $ifsc){
 			$query = "UPDATE `retailer` SET ";
-			$query .= "`acno` = '".$acno."',  `ifsc` = '".$ifsc."'";
-			$query .= " Where id=".$userid;	
+			$query .= "`acno` = '".$acno."',  `ifsc` = '".$ifsc."' ,  `acname` = '".$acname."' ,  `bankname` = '".$bankname."' ,  `actype` = '".$actype."'";
+			$query .= " Where id=".$userid;
 			//echo $query;
 			dbo::insertRecord($query);
 		}
