@@ -12,9 +12,9 @@
 	}
 	
 	if($retailer){
-		if(isset($_POST['ifsc']) && isset($_POST['acno'])){
+		if(isset($_POST['ifsc']) && isset($_POST['acno']) && isset($_POST['acname'])&& isset($_POST['bankname'])&& isset($_POST['actype']) ){
 			if($retailer->status == 1){
-				Retailer::updateRetailerBankDetails($retailer->id, $_POST['acno'], $_POST['ifsc']);
+				Retailer::updateRetailerBankDetails($retailer->id, $_POST['acno'], $_POST['ifsc'], $_POST['acname'], $_POST['bankname'], $_POST['actype']);
 				echo Response::getSuccessResponse(null, 200);
 			}else if($retailer->status == -1){
 				echo Response::getFailureResponse(null, 408);
