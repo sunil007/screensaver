@@ -21,7 +21,7 @@ $arr = json_decode($response, true);
 
 
 $responseNum = 200;
-if($arr["success"] == 1)
+if($arr["failure"] == 0)
  $responseNum = 200;
 else
  $responseNum = 430;
