@@ -31,8 +31,8 @@
 			"426" => "Reviewer not found",
 			"427" => "AMC Amount Paid",
 			"428" => "AMC Amount UnPaid",
-			"429" => "Incorrect current password provided"
-				"430" => "Failed to Send Notification"
+			"429" => "Incorrect current password provided",
+			"430" => "Failed to Send Notification"
 		);
 
 
