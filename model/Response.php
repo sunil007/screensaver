@@ -1,6 +1,6 @@
 <?php
 	class Response{
-		
+
 		public static $responseCode = array(
 			"200" => "Success",
 			"201" => "No Match Found",
@@ -31,11 +31,12 @@
 			"426" => "Reviewer not found",
 			"427" => "AMC Amount Paid",
 			"428" => "AMC Amount UnPaid",
-			"429" => "Incorrect current password provided"
+			"429" => "Incorrect current password provided",
+			"430" => "Failed to Send Notification"
 		);
-		
-		
-		
+
+
+
 		public static function getSuccessResponse($map, $responseCode){
 			$responseMap = array();
 			$responseMap['status'] = 'success';
@@ -49,7 +50,7 @@
 			}
 			return json_encode($responseMap);
 		}
-		
+
 		public static function getFailureResponse($map, $responseCode){
 			$responseMap = array();
 			$responseMap['status'] = 'failed';
@@ -63,7 +64,7 @@
 			}
 			return json_encode($responseMap);
 		}
-		
+
 		public static function getMessageForStatusCode($statusCode){
 			if(isset(Response::$responseCode[$statusCode]))
 				return Response::$responseCode[$statusCode];
