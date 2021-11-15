@@ -22,10 +22,10 @@ $arr = json_decode($response, true);
 //echo $response;
 
 $responseNum = 200;
-if($arr["failure"] == 0)
- $responseNum = 200;
-else
+if($arr["success"] == 0)
  $responseNum = 430;
+else
+ $responseNum = 200;
 
 		if($responseNum == 200)
 			echo Response::getSuccessResponse(null, 200);
