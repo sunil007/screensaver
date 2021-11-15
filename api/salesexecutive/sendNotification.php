@@ -19,7 +19,7 @@
 $response  = FireBaseNotification::SendNotificationToUser(null, $type, $title,$body);
 $arr = json_decode($response, true);
 
-echo $response;
+//echo $response;
 
 $responseNum = 200;
 if($arr["failure"] == 0)
